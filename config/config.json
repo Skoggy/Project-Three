@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "christopher",
-    "database": "database_development",
+    "database": "StockTakeDB",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
