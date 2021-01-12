@@ -4,7 +4,7 @@ const routes = require("./routes");
 // Sets up the Express App
 // =============================================================
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3001;
 
 // Requiring our models for syncing
 const db = require("./models");
@@ -24,4 +24,6 @@ db.sequelize.sync({ force: true }).then(function () {
     });
 });
 
-
+app.get('/', (req, res) => {
+    res.send("hello world")
+})

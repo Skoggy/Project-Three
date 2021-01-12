@@ -6,7 +6,7 @@ const HeaderStyles = styled.div`
 background-color: var(--lightBlue);
 height: 6rem;
 text-align: center;
-font-size: 8rem;
+font-size: 4rem;
 
 `
 
