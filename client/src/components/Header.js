@@ -1,15 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const HeaderStyles = styled.header`
-* {
+const HeaderStyles = styled.div`
+ 
 background-color: var(--lightBlue);
-height: 150px;
-}
+height: 6rem;
+text-align: center;
+font-size: 8rem;
+
 `
 
 export default function Header() {
     return (
-        <HeaderStyles> MATE</HeaderStyles>
+        <HeaderStyles>
+            <div>
+                StockTake
+        </div>
+        </HeaderStyles>
     )
 }
