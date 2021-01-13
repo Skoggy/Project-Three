@@ -6,6 +6,8 @@ import Typography from './styles/Typography';
 import Footer from './components/Footer'
 import { LoginPage } from './pages/login'
 import { MainPage } from './pages/mainPage'
+import User from './components/User'
+
 
 
 
@@ -15,6 +17,7 @@ function App() {
       <GlobalStyles />
       <Typography />
       <Header />
+      <User />
       <Router>
         <Route exact path='/' component={LoginPage} />
         <Route exact path='/main' component={MainPage} />
