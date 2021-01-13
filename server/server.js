@@ -1,5 +1,5 @@
 const express = require("express");
-const routes = require("./routes");
+
 
 // Sets up the Express App
 // =============================================================
@@ -9,13 +9,18 @@ const PORT = process.env.PORT || 3001;
 // Requiring our models for syncing
 const db = require("./models");
 
-// app.use(routes);
+
+
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Static directory
 app.use(express.static("public"));
+app.use('/api', require('./routes/api-routes'));
+
+
+
 
 
 db.sequelize.sync({ force: true }).then(function () {
@@ -24,6 +29,3 @@ db.sequelize.sync({ force: true }).then(function () {
     });
 });
 
-app.get('/', (req, res) => {
-    res.send("hello world")
-})
