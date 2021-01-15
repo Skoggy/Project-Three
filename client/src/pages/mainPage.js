@@ -1,10 +1,13 @@
 import React from 'react';
-import User from '../components/User';
+// import User from '../components/User';
+import { withRouter } from 'react-router-dom';
 
-export const MainPage = () => {
+function MainPage() {
     return (
         <div>
-            <User />
+            If you see this, it means youre authenticated.
         </div>
     )
 }
+
+export default withRouter(MainPage);

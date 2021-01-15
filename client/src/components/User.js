@@ -25,7 +25,10 @@ export default function User() {
         <div>
 
             {data.map(item => (
-                <p>{item.name}</p>
+                <div>
+                    <p key={item.id}>{item.name}</p>
+                    <p>{item.password}</p>
+                </div>
             ))}
 
         </div>

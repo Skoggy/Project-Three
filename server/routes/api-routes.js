@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const db = require("../models")
+const db = require("../models");
+const bcrypt = require('bcrypt')
+const saltRounds = 10;
 
 
 router.get("/users", function (req, res) {
@@ -16,15 +18,23 @@ router.get('/select', (req, res) => {
     res.send('select')
 })
 
-router.get('/insert', (req, res) => {
-    db.User.create({
-        name: "chris",
-        password: "chris"
-    }).catch(err => {
-        if (err) {
-            console.log(err)
-        }
-    })
+
+
+router.post('/insert', (req, res) => {
+    // const name = req.body.name
+    // const password = req.body.password
+
+    // bcrypt.hash(password, saltRounds, (err, hash) => {
+    //     db.User.create({
+    //         name: name,
+    //         password: hash
+    //     }).catch(err => {
+    //         if (err) {
+    //             console.log(err)
+    //         }
+    //     })
+    // })
+
 })
 router.delete('/delete', (req, res) => {
     res.send('delete')
