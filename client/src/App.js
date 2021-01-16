@@ -11,6 +11,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import { UserContext } from './utils/UserContext';
 import { frontPage } from './pages/frontPage';
 import { SelectStockPage } from './pages/selectStockPage';
+import { StockProvider } from './utils/StockContext'
 
 
 
@@ -22,6 +23,7 @@ function App() {
 
 
 
+
   return (
     <>
       <GlobalStyles />
@@ -29,8 +31,10 @@ function App() {
       <Header />
 
       <Router>
-        <Route exact path='/stocktype' component={SelectStockPage} />
+
         <UserContext.Provider value={providerValue}>
+          <Route exact path='/stocktype' component={SelectStockPage} />
+
           <Route exact path='/' component={frontPage} />
           {/* <ProtectedRoute exact path='/main' component={MainPage} /> */}
 

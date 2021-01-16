@@ -63,7 +63,7 @@ router.post("/register", function (req, res) {
     })
 })
 
-router.get("/stock", function (req, res) {
+router.get("/stocktype", function (req, res) {
     db.StockType.findAll({}).then(function (results) {
         res.json(results)
     })
