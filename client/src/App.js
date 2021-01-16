@@ -6,9 +6,11 @@ import Typography from './styles/Typography';
 import Footer from './components/Footer'
 import { LoginPage } from './pages/login'
 import MainPage from './pages/mainPage'
-import User from './components/User'
+// import User from './components/User'
 import ProtectedRoute from './components/ProtectedRoute'
 import { UserContext } from './utils/UserContext';
+import { frontPage } from './pages/frontPage';
+import { SelectStockPage } from './pages/selectStockPage';
 
 
 
@@ -25,11 +27,13 @@ function App() {
       <GlobalStyles />
       <Typography />
       <Header />
-      <User />
+
       <Router>
+        <Route exact path='/stocktype' component={SelectStockPage} />
         <UserContext.Provider value={providerValue}>
-          <Route exact path='/' component={LoginPage} />
-          <ProtectedRoute exact path='/main' component={MainPage} isAuth={(user === null) ? false : true} />
+          <Route exact path='/' component={frontPage} />
+          {/* <ProtectedRoute exact path='/main' component={MainPage} /> */}
+
         </UserContext.Provider>
       </Router>
       <Footer />

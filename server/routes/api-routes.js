@@ -13,8 +13,8 @@ router.get("/users", function (req, res) {
     })
 })
 
-router.get('/user:id', function (req, res) {
-    db.User.fin
+router.get('/login', function (req, res) {
+    res.json({ name: "chris" })
 })
 
 
@@ -52,14 +52,30 @@ router.delete('/delete', (req, res) => {
     res.send('delete')
 })
 
-// app.post("/users", function (req, res) {
-//     console.log(req.body);
-//     db.User.create({
-//         name: req.body.name,
-//         password: req.body.password
-//     }).then(function (results) {
-//         res.json(results)
-//         res.end()
-//     })
+router.post("/register", function (req, res) {
+    console.log(req.body);
+    db.User.create({
+        name: req.body.name,
+        password: req.body.password
+    }).then(function (results) {
+        res.json(results)
+        res.end()
+    })
+})
 
-module.exports = router;
+router.get("/stock", function (req, res) {
+    db.StockType.findAll({}).then(function (results) {
+        res.json(results)
+    })
+})
+
+router.post("/stocktype", function (req, res) {
+    console.log(req.body);
+    db.StockType.create({
+        name: req.body.name
+    }).then(function (results) {
+        res.json(results)
+        res.end()
+    })
+})
+module.exports = router
