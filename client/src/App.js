@@ -1,4 +1,4 @@
-import { React, useState, useMemo } from 'react';
+import { React, useState, useMemo, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import GlobalStyles from './styles/GlobalStyles';
 import Header from './components/Header';
@@ -17,6 +17,9 @@ function App() {
   const [isAuth, setIsAuth] = useState(false)
   const [user, setUser] = useState(null)
   const providerValue = useMemo(() => ({ user, setUser }), [user, setUser])
+
+
+
   return (
     <>
       <GlobalStyles />
@@ -26,7 +29,7 @@ function App() {
       <Router>
         <UserContext.Provider value={providerValue}>
           <Route exact path='/' component={LoginPage} />
-          <ProtectedRoute exact path='/main' component={MainPage} isAuth={isAuth} />
+          <ProtectedRoute exact path='/main' component={MainPage} isAuth={(user === null) ? false : true} />
         </UserContext.Provider>
       </Router>
       <Footer />

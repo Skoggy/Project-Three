@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require("../models");
 const bcrypt = require('bcrypt');
-const { default: User } = require('../../client/src/components/User');
+
 const saltRounds = 10;
 
 
@@ -25,7 +25,7 @@ router.get('/select', (req, res) => {
 
 
 
-router.post('/insert', (req, res) => {
+router.post('/insert', async (req, res) => {
     const user = await User.create({ name: req.body.name, password: req.body.password }).catch(err => {
         if (err) {
             console.log(err)

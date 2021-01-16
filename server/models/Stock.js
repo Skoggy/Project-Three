@@ -1,6 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-    const User = sequelize.define("User", {
-
+    const Stock = sequelize.define("Stock", {
         name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -8,19 +7,16 @@ module.exports = function (sequelize, DataTypes) {
                 len: [1]
             }
         },
-        password: {
-            type: DataTypes.STRING,
+        value: {
+            type: DataTypes.INTEGER,
             allowNull: false,
-            vaildate: {
-                len: [8]
+            validate: {
 
             }
-        },
-        isAuth: {
-            type: DataTypes.BOOLEAN,
         }
+
     })
 
 
-    return User;
+    return Stock
 }

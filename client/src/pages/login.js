@@ -15,16 +15,12 @@ margin: 10px;
 }
 `
 
-
-
 export const LoginPage = () => {
 
     const [usernameReg, setUsernameReg] = useState('')
     const [passwordReg, setPasswordReg] = useState('')
 
     const { user, setUser } = useContext(UserContext);
-
-
 
     return (
         <InputStyles>
