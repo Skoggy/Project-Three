@@ -4,8 +4,16 @@ import getStock from '../utils/getStock'
 import axios from "axios"
 import { StockContext } from '../utils/StockContext';
 
-const buttonStyles = styled.button`
+const ButtonStyles = styled.button`
+padding: 8px;
+background-color:var(--lightGrey);
+border-color:var(--lightGrey);
 
+`
+
+const ButtonContainerStyles = styled.div`
+display:grid;
+grid-template-rows: auto 1fr;
 `
 
 export const StockGroupList = () => {
@@ -19,6 +27,7 @@ export const StockGroupList = () => {
 
     useEffect(() => {
         axios(stockGroupURL).then(res => {
+
             setAllStockGroups(res)
             console.log(res)
         })
@@ -39,13 +48,14 @@ export const StockGroupList = () => {
     }
 
     return (
-        <div>
-            {allStockGroups.data.map(res => <button key={res.id}>{res.name}</button>)}
+
+        <ButtonContainerStyles>
+            {allStockGroups.data.map(res => <ButtonStyles key={res.id}>{res.name}</ButtonStyles>)}
             <form onSubmit={insertStockGroup}>
                 <label>Name</label>
                 <input type="text" name="name" id="Name" placeholder="Name" value={stockName.name} onChange={onChange} />
                 <button>Submit</button>
             </form>
-        </div >
+        </ButtonContainerStyles>
     )
 }

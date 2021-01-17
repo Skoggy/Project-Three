@@ -1,16 +1,22 @@
 import { React, useState, useEffect } from 'react';
-
+import styled from 'styled-components';
 // import { StockGroupList } from '../components/StockGroupList'
 import { StockGroupList } from '../components/StockGroupList';
+import { StockList } from '../components/StockList'
+
+const StockPageStyles = styled.div`
+display: flex;
+flex-direction:row;
+`
 
 
 export const SelectStockPage = () => {
     return (
-        <div>
+        <StockPageStyles>
 
             <StockGroupList />
-
-        </div>
+            <StockList />
+        </StockPageStyles>
     )
 }
 

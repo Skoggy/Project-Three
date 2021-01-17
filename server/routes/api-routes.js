@@ -18,13 +18,6 @@ router.get('/login', function (req, res) {
 })
 
 
-
-router.get('/select', (req, res) => {
-    res.send('select')
-})
-
-
-
 router.post('/insert', async (req, res) => {
     const user = await User.create({ name: req.body.name, password: req.body.password }).catch(err => {
         if (err) {
@@ -63,9 +56,17 @@ router.post("/register", function (req, res) {
     })
 })
 
+router.get("/stock", function (req, res) {
+    db.Stock.findAll({}).then(function (results) {
+        res.json(results)
+    })
+})
+
+
 router.get("/stocktype", function (req, res) {
     db.StockType.findAll({}).then(function (results) {
         res.json(results)
+        res.end()
     })
 })
 

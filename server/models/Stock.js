@@ -8,15 +8,18 @@ module.exports = function (sequelize, DataTypes) {
             }
         },
         value: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.FLOAT,
             allowNull: false,
             validate: {
-
             }
         }
-
     })
-
-
+    Stock.associate = function (models) {
+        Stock.belongsTo(models.StockType, {
+            foreignKey: {
+                allowNull: false
+            }
+        })
+    }
     return Stock
 }

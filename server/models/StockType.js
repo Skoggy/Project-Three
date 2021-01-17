@@ -1,20 +1,20 @@
+
+
 module.exports = function (sequelize, DataTypes) {
     const StockType = sequelize.define("StockType", {
         name: {
             type: DataTypes.STRING,
-            allowNull: false,
+            // allowNull: false,
             // validate: {
-            // len: [1]
+            //     len: [1]
             // }
         }
 
     })
     StockType.associate = function (models) {
-        StockType.belongsTo(models.Stock, {
-            foreignKey: {
-                // allowNull: false,
-            },
-        });
+        StockType.hasMany(models.Stock, {
+            onDelete: "cascade"
+        })
     }
     return StockType
 }
