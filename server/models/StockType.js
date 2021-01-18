@@ -1,20 +1,37 @@
-
-
-module.exports = function (sequelize, DataTypes) {
-    const StockType = sequelize.define("StockType", {
-        name: {
-            type: DataTypes.STRING,
-            // allowNull: false,
-            // validate: {
-            //     len: [1]
-            // }
-        }
-
-    })
-    StockType.associate = function (models) {
-        StockType.hasMany(models.Stock, {
-            onDelete: "cascade"
-        })
+'use strict';
+const {
+  Model
+} = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class Stocktype extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate({ Stock }) {
+      // define association here
+      this.hasMany(Stock, { foreignKey: 'stocktypeId', as: 'stocks' })
     }
-    return StockType
-}
+
+
+    toJSON() {
+      return { ...this.get(), id: undefined }
+    }
+  };
+  Stocktype.init({
+    uuid: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    }
+  }, {
+    sequelize,
+    tableName: 'stocktype',
+    modelName: 'Stocktype',
+  });
+  return Stocktype;
+};

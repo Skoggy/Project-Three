@@ -27,7 +27,6 @@ export const StockGroupList = () => {
 
     useEffect(() => {
         axios(stockGroupURL).then(res => {
-
             setAllStockGroups(res)
             console.log(res)
         })
