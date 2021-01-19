@@ -125,7 +125,7 @@ router.put('/stocktypes/:uuid', async (req, res) => {
 
         await stocktype.save()
 
-        return res.json(stocktype)
+        return res.json()
     } catch (err) {
         console.log(err)
         return res.status(500).json({ err: 'Something went wrong' })
@@ -158,6 +158,15 @@ router.get('/stocks', async (req, res) => {
     }
 })
 
+router.get('/stocks', async (req, res) => {
+    try {
+        const stocks = await Stock.findAll({ where: { stocktypeId: stocktypeId } })
+        return res.json(stocks)
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json(err)
+    }
+})
 
 
 module.exports = router
