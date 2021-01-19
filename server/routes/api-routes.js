@@ -56,40 +56,6 @@ const saltRounds = 10;
 //     })
 // })
 
-// router.get("/stock", function (req, res) {
-//     db.Stock.findAll({}).then(function (results) {
-//         res.json(results)
-//     })
-// })
-
-// router.post("/stock", function (req, res) {
-//     console.log(req.body);
-//     db.StockType.create({
-//         name: req.body.name,
-//         // value: req.body.value
-//     }).then(function (results) {
-//         res.json(results)
-//         res.end()
-//     })
-// })
-
-// router.post("/stocktype", function (req, res) {
-//     console.log(req.body);
-//     db.StockType.create({
-//         name: req.body.name
-//     }).then(function (results) {
-//         res.json(results)
-//         res.end()
-//     })
-// })
-
-
-// router.get("/stocktype", function (req, res) {
-//     db.StockType.findAll({}).then(function (results) {
-//         res.json(results)
-//         res.end()
-//     })
-// })
 
 
 
@@ -128,6 +94,42 @@ router.get('/stocktypes/:uuid', async (req, res) => {
     } catch (err) {
         console.log(err)
         return res.status(500).json({ err: 'Something went wrong' })
+    }
+})
+
+router.delete('/stocktypes/:uuid', async (req, res) => {
+    const uuid = req.params.uuid
+    try {
+        const stocktype = await Stocktype.findOne({
+            where: { uuid }
+        })
+
+        await stocktype.destroy()
+
+        return res.json({ message: "Stock provider removed." })
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({ err: 'Something went wrong' })
+    }
+})
+
+router.put('/stocktypes/:uuid', async (req, res) => {
+    const uuid = req.params.uuid
+    const { name } = req.body;
+    try {
+        const stocktype = await Stocktype.findOne({
+            where: { uuid }
+        })
+
+        stocktype.name = name;
+
+        await stocktype.save()
+
+        return res.json(stocktype)
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({ err: 'Something went wrong' })
+
     }
 })
 
