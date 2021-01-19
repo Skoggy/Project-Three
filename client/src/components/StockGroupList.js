@@ -50,7 +50,7 @@ export const StockGroupList = () => {
     return (
 
         <ButtonContainerStyles>
-            {allStockGroups.map(item => <ButtonStyles key={item.id}>{item.name}</ButtonStyles>)}
+            {allStockGroups.map(item => <ButtonStyles key={item.id} onClick={() => console.log(item.uuid, item.name)}>{item.name}</ButtonStyles>)}
             <form onSubmit={insertStockGroup}>
                 <label>Name</label>
                 <input type="text" name="name" id="Name" placeholder="Name" value={stockName.name} onChange={onChange} />
