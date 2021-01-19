@@ -19,6 +19,9 @@ module.exports = {
       value: {
         type: DataTypes.FLOAT
       },
+      amount: {
+        type: DataTypes.INTEGER,
+      },
       stocktypeId: {
         type: DataTypes.INTEGER,
         allowNull: false

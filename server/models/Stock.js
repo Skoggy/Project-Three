@@ -24,13 +24,22 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: { msg: "Stock must have a name" },
+        notEmpty: { msg: "Stock must not be empty" }
+      }
     },
-    value: DataTypes.FLOAT
-  }, {
-    sequelize,
-    tableName: 'stock',
-    modelName: 'Stock',
-  });
+    value: DataTypes.FLOAT,
+    amount: {
+      type: DataTypes.INTEGER,
+    }
+  },
+
+    {
+      sequelize,
+      tableName: 'stock',
+      modelName: 'Stock',
+    });
   return Stock;
 };

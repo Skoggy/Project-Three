@@ -27,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notNull: { msg: "Stock provider must have a name" },
+        notEmpty: { msg: "Stock provider must not be empty" }
+      }
     }
   }, {
     sequelize,
