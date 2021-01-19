@@ -20,14 +20,15 @@ export const StockGroupList = () => {
 
     const [allStockGroups, setAllStockGroups] = useState([])
     const [stockName, setStockName] = useState({
-        name: ''
+        name: '',
+        uuid: ''
     })
-    const stockGroupURL = 'http://localhost:3001/api/stocktype'
+    const stockGroupURL = 'http://localhost:3001/api/stocktypes'
 
 
     useEffect(() => {
         axios(stockGroupURL).then(res => {
-            setAllStockGroups(res)
+            setAllStockGroups(res.data)
             console.log(res)
         })
     }, [])
@@ -49,7 +50,7 @@ export const StockGroupList = () => {
     return (
 
         <ButtonContainerStyles>
-            {allStockGroups.data.map(res => <ButtonStyles key={res.id}>{res.name}</ButtonStyles>)}
+            {allStockGroups.map(item => <ButtonStyles key={item.id}>{item.name}</ButtonStyles>)}
             <form onSubmit={insertStockGroup}>
                 <label>Name</label>
                 <input type="text" name="name" id="Name" placeholder="Name" value={stockName.name} onChange={onChange} />
