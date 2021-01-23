@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(Stocktype, { foreignKey: 'stocktypeId', as: 'stocktype' })
     }
     toJSON() {
-      return { ...this.get(), id: undefined, stocktypeId: undefined }
+      return { ...this.get(), id: undefined }
     }
   };
   Stock.init({

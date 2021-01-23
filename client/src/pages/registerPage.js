@@ -6,25 +6,38 @@ import { UserContext } from '../utils/UserContext';
 
 export const registerPage = () => {
 
-    const { user, setUser } = useContext(UserContext);
+    const [username, setUsername] = setState('')
+    const [password, setPassword] = setState('')
+    const [error, setError] = useState('')
+
+
+    function handleFormSubmit(event) {
+        event.preventDefault();
+        if (username && password) {
+            API.signUp({
+                username: username,
+                password: password
+            })
+                .then(res => window.location.href = ).catch(err => console.log(err))
+        }
+        else {
+            setError("Username or password should be set")
+        }
+    }
+
+
+
+    // const { user, setUser } = useContext(UserContext);
+
     return (
 
-        <div div className="registration" >
+        <div className="registration" >
             <h1>Registration</h1>
-            <pre>{JSON.stringify(user, null, 2)}</pre>
-
-            {/* {
-                user ? (<button onClick={() => { (setUser(null)) }}>Logout</button>) :
-                    (<button onClick={async () => {
-                        const user = await login(); setUser(user)
-                    }}>Login</button>)
-            } */}
-
-            {/* <label>Username</label>
-            <input type="text" onChange={(e) => setUsernameReg(e.target.value)} />
+            <input type="text" onChange={(e) => setUsername(e.target.value)} />
             <label>Password</label>
-            <input type="text" onChange={(e) => setPasswordReg(e.target.value)} /> */}
-            <button onClick={register}>Register</button>
+            <input type="text" onChange={(e) => setPassword(e.target.value)} />
+            <button onClick={handleFormSubmit}>Register</button>
+            <div>{error}</div>
         </div>
     )
 }

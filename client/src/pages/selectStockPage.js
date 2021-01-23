@@ -15,7 +15,7 @@ export const SelectStockPage = () => {
         <StockPageStyles>
 
             <StockGroupList />
-            <StockList />
+            {/* <StockList /> */}
         </StockPageStyles>
     )
 }

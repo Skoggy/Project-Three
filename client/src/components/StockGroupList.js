@@ -1,61 +1,86 @@
-import { React, useState, useEffect, useMemo } from 'react';
+import { React, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import getStock from '../utils/getStock'
+
 import axios from "axios"
-import { StockContext } from '../utils/StockContext';
+
+import { useFetch } from './hooks/useFetch';
+
+const FlexDivisionStyles = styled.div`
+display:flex;
+
+
+`
 
 const ButtonStyles = styled.button`
 padding: 8px;
 background-color:var(--lightGrey);
 border-color:var(--lightGrey);
-
 `
 
-const ButtonContainerStyles = styled.div`
+const StockTypeStyles = styled.div`
 display:grid;
 grid-template-rows: auto 1fr;
 `
 
+const StockStyles = styled.div`
+display:grid;
+grid-template-rows: 1fr;
+`
+
 export const StockGroupList = () => {
 
-    const [allStockGroups, setAllStockGroups] = useState([])
-    const [stockName, setStockName] = useState({
+
+    const stockGroupURL = 'http://localhost:3001/api/stocktypes'
+
+    // to get all stocktypes and their stock
+    const [stockTypes, setStockTypes] = useState([])
+    // sets which stocks under which stocktype is selected
+    const [currentStock, setCurrentStock] = useState([])
+
+    // for adding new stocktype
+    const [stockTypeInput, setStockTypeInput] = useState({
         name: '',
         uuid: ''
     })
-    const stockGroupURL = 'http://localhost:3001/api/stocktypes'
+
+    // useFetch to retrieve stocktypes
+    const { data, loader, error } = useFetch(stockGroupURL)
 
 
     useEffect(() => {
-        axios(stockGroupURL).then(res => {
-            setAllStockGroups(res.data)
-            console.log(res)
-        })
-    }, [])
+        setStockTypes(data)
+    }, [data])
 
 
+    // used to insert new stocktype into the stocktype database.
     const insertStockGroup = (e) => {
         e.preventDefault();
-        const data = { name: stockName.name }
+        const data = { name: stockTypeInput.name }
         axios.post(stockGroupURL, data).then((result) => {
             console.log(result.data)
         })
     }
-    const onChange = (e) => {
+    const onChangeStockType = (e) => {
         e.persist();
-        setStockName({ ...stockName, [e.target.name]: e.target.value })
-
+        setStockTypeInput({ ...stockTypeInput, [e.target.name]: e.target.value })
     }
 
     return (
+        <FlexDivisionStyles className='flex'>
+            <StockTypeStyles className="flex-initial">
+                {stockTypes && stockTypes.map(item => <ButtonStyles key={item.uuid} onClick={() => setCurrentStock(item.stocks)}>{item.name}</ButtonStyles>)}
+            </StockTypeStyles>
+            <StockStyles>
+                {currentStock && currentStock.map(item => <ButtonStyles key={item.uuid}>{item.name}</ButtonStyles>)}
+            </StockStyles>
 
-        <ButtonContainerStyles>
-            {allStockGroups.map(item => <ButtonStyles key={item.id} onClick={() => console.log(item.uuid, item.name)}>{item.name}</ButtonStyles>)}
             <form onSubmit={insertStockGroup}>
                 <label>Name</label>
-                <input type="text" name="name" id="Name" placeholder="Name" value={stockName.name} onChange={onChange} />
+                <input type="text" name="name" id="Name" placeholder="Name" value={stockTypeInput.name} onChange={onChangeStockType} />
                 <button>Submit</button>
             </form>
-        </ButtonContainerStyles>
+        </FlexDivisionStyles>
     )
 }
+
+// .forEach(thing => { setCurrentStock(thing) })) }
