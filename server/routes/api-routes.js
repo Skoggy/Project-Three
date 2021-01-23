@@ -1,29 +1,33 @@
 const express = require('express');
 const router = express.Router();
-const { sequelize, Stocktype, Stock } = require('../models');
-const bcrypt = require('bcrypt');
+const { sequelize, Stocktype, Stock, User } = require('../models');
+const passport = require('../config/passport');
 
 
 
-// app.post("/api/login", passport.authenticate("local"), function (req, res) {
-//     res.json(req.user);
-// });
 
-// Route for signing up a user. The user's password is automatically hashed and stored securely thanks to
-// how we configured our Sequelize User Model. If the user is created successfully, proceed to log the user in,
-// otherwise send back an error
-// app.post("/api/signup", function (req, res) {
-//     db.User.create({
-//         email: req.body.email,
-//         password: req.body.password
-//     })
-//         .then(function () {
-//             res.json(user);
-//         })
-//         .catch(function (err) {
-//             res.status(401).json(err);
-//         });
-// });
+router.post("/login", passport.authenticate("local"), function (req, res) {
+    res.json(req.user);
+});
+
+// Route for signing up a user.The user's password is automatically hashed and stored securely thanks to
+// how we configured our Sequelize User Model.If the user is created successfully, proceed to log the user in,
+//     otherwise send back an error
+router.post("/signup", async (req, res) => {
+    const { email, password } = req.body
+    try {
+        const user = await User.create({
+            email, password
+        })
+        return res.json(user)
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json(err)
+    }
+})
+
+
+
 
 // // Route for logging user out
 // app.get("/logout", function (req, res) {

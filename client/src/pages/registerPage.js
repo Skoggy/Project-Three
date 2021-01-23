@@ -1,31 +1,33 @@
-import { React, useState, useContext } from 'react';
-import { register } from '../utils/register';
-import { UserContext } from '../utils/UserContext';
+import axios from 'axios';
+import { React, useState } from 'react';
+import { register } from '../utils/reg';
+// import { UserContext } from '../utils/UserContext';
 
 
 
-export const registerPage = () => {
+export const RegisterPage = () => {
 
-    const [username, setUsername] = setState('')
-    const [password, setPassword] = setState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
     const [error, setError] = useState('')
 
 
-    function handleFormSubmit(event) {
-        event.preventDefault();
-        if (username && password) {
-            API.signUp({
-                username: username,
-                password: password
-            })
-                .then(res => window.location.href = ).catch(err => console.log(err))
+    async function handleFormSubmit(e) {
+        e.preventDefault();
+        if (email && password) {
+            await axios.post(
+                'http://localhost:3001/api/signup',
+                {
+                    email: email,
+                    password: password
+                }
+            )
+                .then(res => window.location.href = '/').catch(err => console.log(err))
         }
         else {
             setError("Username or password should be set")
         }
     }
-
-
 
     // const { user, setUser } = useContext(UserContext);
 
@@ -33,9 +35,11 @@ export const registerPage = () => {
 
         <div className="registration" >
             <h1>Registration</h1>
-            <input type="text" onChange={(e) => setUsername(e.target.value)} />
+            <input type="text" onChange={(e) => setEmail(e.target.value)} />
             <label>Password</label>
+            {console.log(email)}
             <input type="text" onChange={(e) => setPassword(e.target.value)} />
+            {console.log(password)}
             <button onClick={handleFormSubmit}>Register</button>
             <div>{error}</div>
         </div>

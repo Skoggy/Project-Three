@@ -1,8 +1,8 @@
-import { React, useState, useEffect } from 'react';
+import { React } from 'react';
 import styled from 'styled-components';
 // import { StockGroupList } from '../components/StockGroupList'
 import { StockGroupList } from '../components/StockGroupList';
-import { StockList } from '../components/StockList'
+// import { StockList } from '../components/StockList'
 
 const StockPageStyles = styled.div`
 display: flex;

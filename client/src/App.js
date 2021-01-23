@@ -11,7 +11,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import { UserContext } from './utils/UserContext';
 import { frontPage } from './pages/frontPage';
 import { SelectStockPage } from './pages/selectStockPage';
-import { StockProvider } from './utils/StockContext'
+import { RegisterPage } from './pages/registerPage';
 
 
 
@@ -34,7 +34,7 @@ function App() {
 
         <UserContext.Provider value={providerValue}>
           <Route exact path='/stocktype' component={SelectStockPage} />
-
+          <Route exact path='/register' component={RegisterPage} />
           <Route exact path='/' component={frontPage} />
           {/* <ProtectedRoute exact path='/main' component={MainPage} /> */}
 
