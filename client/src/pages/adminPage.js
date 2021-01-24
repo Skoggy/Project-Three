@@ -1,8 +1,22 @@
-import React from 'react';
+import { React } from 'react';
+import styled from 'styled-components';
+// import { StockGroupList } from '../components/StockGroupList'
+import { StockGroupList } from '../components/StockGroupList';
+// import { StockList } from '../components/StockList'
+
+const StockPageStyles = styled.div`
+display: flex;
+flex-direction:row;
+`
 
 
-export const adminPage = () => {
+export const Admin = () => {
     return (
-        <div>This is the adminPage</div>
+        <StockPageStyles>
+
+            <StockGroupList />
+            {/* <StockList /> */}
+        </StockPageStyles>
     )
 }
+

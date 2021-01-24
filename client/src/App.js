@@ -12,7 +12,8 @@ import { UserContext } from './utils/UserContext';
 import { frontPage } from './pages/frontPage';
 import { SelectStockPage } from './pages/selectStockPage';
 import { RegisterPage } from './pages/registerPage';
-
+import { Admin } from './pages/adminPage'
+import { takeItemPage } from './pages/takeItemPage'
 
 
 
@@ -33,9 +34,12 @@ function App() {
       <Router>
 
         <UserContext.Provider value={providerValue}>
+          <Route exact path='/login' component={LoginPage} />
           <Route exact path='/stocktype' component={SelectStockPage} />
+          <Route exact path='/takeitem' component={takeItemPage} />
           <Route exact path='/register' component={RegisterPage} />
           <Route exact path='/' component={frontPage} />
+          <Route exact path='/admin' component={Admin} />
           {/* <ProtectedRoute exact path='/main' component={MainPage} /> */}
 
         </UserContext.Provider>

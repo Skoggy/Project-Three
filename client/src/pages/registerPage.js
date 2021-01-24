@@ -1,16 +1,11 @@
 import axios from 'axios';
 import { React, useState } from 'react';
-import { register } from '../utils/reg';
-// import { UserContext } from '../utils/UserContext';
-
-
 
 export const RegisterPage = () => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
-
 
     async function handleFormSubmit(e) {
         e.preventDefault();
@@ -22,14 +17,12 @@ export const RegisterPage = () => {
                     password: password
                 }
             )
-                .then(res => window.location.href = '/').catch(err => console.log(err))
+                .then(res => window.location.href = '/login').catch(err => console.log(err))
         }
         else {
             setError("Username or password should be set")
         }
     }
-
-    // const { user, setUser } = useContext(UserContext);
 
     return (
 
@@ -38,8 +31,8 @@ export const RegisterPage = () => {
             <input type="text" onChange={(e) => setEmail(e.target.value)} />
             <label>Password</label>
             {console.log(email)}
-            <input type="text" onChange={(e) => setPassword(e.target.value)} />
-            {console.log(password)}
+            <input type="password" onChange={(e) => setPassword(e.target.value)} />
+
             <button onClick={handleFormSubmit}>Register</button>
             <div>{error}</div>
         </div>

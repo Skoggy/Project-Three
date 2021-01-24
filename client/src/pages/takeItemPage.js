@@ -1,9 +1,12 @@
-import React from 'react';
+import React from 'react'
+import { TakeItem } from '../components/TakeItem'
 
 export const takeItemPage = () => {
 
+
+
     return (
-        <div>HEY THIS IS THE TAKE ITEM PAGE</div>
+        <div><TakeItem /></div>
     )
 
 

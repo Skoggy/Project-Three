@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require('cors');
-const { sequelize, Stocktype } = require("./models");
+const { sequelize } = require("./models");
+const session = require("express-session");
 
 
 // Sets up the Express App
@@ -15,12 +16,18 @@ app.use(cors());
 // // Sets up the Express app to handle data parsing
 // app.use(express.urlencoded({ extended: true }));
 
+// Requiring passport as we've configured it
+const passport = require("./config/passport");
+
+
 
 // // Static directory
 // app.use(express.static("public"));
 app.use('/api', require('./routes/api-routes'));
 
-
+app.use(session({ secret: "chris", resave: true, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 
