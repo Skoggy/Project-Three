@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { sequelize, Stocktype, Stock, User } = require('../models');
+const { Stocktype, Stock, User } = require('../models');
 const passport = require('../config/passport');
 
 
 
 
 router.post("/login", passport.authenticate("local"),
-    function (req, res) {
+    (req, res) => {
         res.json(req.user);
     });
 
@@ -26,8 +26,6 @@ router.post("/signup", async (req, res) => {
         return res.status(500).json(err)
     }
 })
-
-
 
 
 // Route for logging user out
@@ -70,10 +68,6 @@ router.get("/logout", function (req, res) {
 // })
 
 
-
-
-
-
 router.post('/stocktypes', async (req, res) => {
     const { name } = req.body
     try {
@@ -95,19 +89,6 @@ router.get('/stocktypes', async (req, res) => {
     }
 })
 
-// router.get('/stocktypes/:uuid', async (req, res) => {
-//     const uuid = req.params.uuid
-//     try {
-//         const stocktype = await Stocktype.findOne({
-//             where: { uuid },
-//             include: 'stocks'
-//         })
-//         return res.json(stocktype)
-//     } catch (err) {
-//         console.log(err)
-//         return res.status(500).json({ err: 'Something went wrong' })
-//     }
-// })
 
 router.delete('/stocktypes/:uuid', async (req, res) => {
     const uuid = req.params.uuid
@@ -189,19 +170,6 @@ router.put('/stocks/:uuid', async (req, res) => {
 
     }
 })
-
-// router.get('/getstock', async (req, res) => {
-//     const { stocktypeUuid } = req.body
-//     try {
-//         const stocktype = await Stocktype.findOne({ where: { uuid: stocktypeUuid } })
-//         const stocks = await Stock.findAll({ where: { stocktypeId: stocktype.uuid } })
-
-//         return res.json(stocks)
-//     } catch (err) {
-//         console.log(err)
-//         return res.status(500).json(err)
-//     }
-// })
 
 
 module.exports = router

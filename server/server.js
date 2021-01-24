@@ -23,12 +23,13 @@ const passport = require("./config/passport");
 
 // // Static directory
 // app.use(express.static("public"));
-app.use('/api', require('./routes/api-routes'));
 
-app.use(session({ secret: "chris", resave: true, saveUninitialized: true }));
+
+app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/api', require('./routes/api-routes'));
 
 
 app.listen({ port: 3001 }, async () => {

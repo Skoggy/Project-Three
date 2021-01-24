@@ -22,10 +22,10 @@ export const LoginPage = () => {
     const [error, setError] = useState('')
 
 
-    async function handleFormSubmit(e) {
+    function handleFormSubmit(e) {
         e.preventDefault();
         if (email && password) {
-            await axios.post(
+            axios.post(
                 'http://localhost:3001/api/login',
                 {
                     email: email,
