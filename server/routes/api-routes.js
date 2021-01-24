@@ -6,9 +6,10 @@ const passport = require('../config/passport');
 
 
 
-router.post("/login", passport.authenticate("local"), function (req, res) {
-    res.json(req.user);
-});
+router.post("/login", passport.authenticate("local"),
+    function (req, res) {
+        res.json(req.user);
+    });
 
 // Route for signing up a user.The user's password is automatically hashed and stored securely thanks to
 // how we configured our Sequelize User Model.If the user is created successfully, proceed to log the user in,
@@ -62,44 +63,11 @@ router.get("/logout", function (req, res) {
 // })
 
 
-// router.post('/insert', async (req, res) => {
-//     const user = await User.create({ name: req.body.name, password: req.body.password }).catch(err => {
-//         if (err) {
-//             console.log(err)
-//         }
-//         console.log(`New User ${user} has been created`)
-//     })
-
-//     // const name = req.body.name
-//     // const password = req.body.password
-
-//     // bcrypt.hash(password, saltRounds, (err, hash) => {
-//     //     db.User.create({
-//     //         name: name,
-//     //         password: hash
-//     //     }).catch(err => {
-//     //         if (err) {
-//     //             console.log(err)
-//     //         }
-//     //     })
-//     // })
 
 // })
 // router.delete('/delete', (req, res) => {
 //     res.send('delete')
 // })
-
-// router.post("/register", function (req, res) {
-//     console.log(req.body);
-//     db.User.create({
-//         name: req.body.name,
-//         password: req.body.password
-//     }).then(function (results) {
-//         res.json(results)
-//         res.end()
-//     })
-// })
-
 
 
 
@@ -178,12 +146,12 @@ router.put('/stocktypes/:uuid', async (req, res) => {
 })
 
 router.post('/stocks', async (req, res) => {
-    const { stocktypeUuid, name, value } = req.body
+    const { stocktypeUuid, name, value, amount } = req.body
 
     try {
         const stocktype = await Stocktype.findOne({ where: { uuid: stocktypeUuid } })
 
-        const stock = await Stock.create({ name, value, stocktypeId: stocktype.id })
+        const stock = await Stock.create({ name, amount, value, stocktypeId: stocktype.id })
 
         return res.json(stock)
     } catch (err) {
@@ -199,6 +167,26 @@ router.get('/stocks', async (req, res) => {
     } catch (err) {
         console.log(err)
         return res.status(500).json(err)
+    }
+})
+
+router.put('/stocks/:uuid', async (req, res) => {
+    const uuid = req.params.uuid
+    const { amount } = req.body;
+    try {
+        const stock = await Stock.findOne({
+            where: { uuid }
+        })
+
+        stock.amount = amount;
+
+        await stock.save()
+
+        return res.json()
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({ err: 'Something went wrong' })
+
     }
 })
 

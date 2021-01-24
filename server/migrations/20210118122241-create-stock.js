@@ -21,6 +21,7 @@ module.exports = {
       },
       amount: {
         type: DataTypes.INTEGER,
+        allowNull: false
       },
       stocktypeId: {
         type: DataTypes.INTEGER,

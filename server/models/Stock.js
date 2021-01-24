@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     value: DataTypes.FLOAT,
     amount: {
       type: DataTypes.INTEGER,
+      allowNull: false,
     }
   },
 
