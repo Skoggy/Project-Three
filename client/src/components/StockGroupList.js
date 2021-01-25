@@ -68,9 +68,11 @@ export const StockGroupList = () => {
                 <form onSubmit={insertStockGroup}>
                     <label>Name</label>
                     <input type="text"
-                        name="name" id="Name"
+                        name="name"
+                        id="Name"
                         placeholder="Name"
-                        value={stockTypeInput.name} onChange={onChangeStockType} />
+                        value={stockTypeInput.name}
+                        onChange={onChangeStockType} />
                     <button
                         type="submit">Submit
                     </button>
