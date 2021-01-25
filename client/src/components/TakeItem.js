@@ -11,15 +11,19 @@ export const TakeItem = () => {
         result: {},
         search: ''
     })
-    const [options, setOptions] = useState({})
+    const [option, setOption] = useState([])
     const [text, setText] = useState('')
     const { data, loader, error } = useFetch(stockURL)
 
+
     useEffect(() => {
-        setOptions(data)
+        setOption(data)
     }, [data])
-    // options.forEach(option => console.log(option.name))
-    // data.forEach(item => console.log(item.name))
+
+
+    let options = []
+    option && option.forEach(thing => { options.push(thing.name) })
+
 
     const checkMatch = (e) => {
         e.preventDefault()
@@ -32,14 +36,12 @@ export const TakeItem = () => {
     }
     return (
         <form>
-            <input type="text" placeholder="Search" onChange={(e) => setSearch({ ...search, search: e.target.value })} />
-
             <Hint options={options}>
-                <input
-                    type="text"
-                    value={text}
-                    onChange={e => setText(e.target.value)} />
+                <input type="text" placeholder="Search" onChange={(e) => setSearch({ ...search, search: e.target.value })} />
             </Hint>
+
+
+
             <button onClick={checkMatch}>Check</button>
             <p>{search.result.name}</p>
             <p>{search.result.amount}</p>
