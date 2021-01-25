@@ -1,27 +1,20 @@
 import { React, useState, useEffect } from 'react';
 import styled from 'styled-components';
-
 import axios from "axios"
-
 import { useFetch } from './hooks/useFetch';
 
 const FlexDivisionStyles = styled.div`
 display:flex;
-
-
 `
-
 const ButtonStyles = styled.button`
 padding: 8px;
 background-color:var(--lightGrey);
 border-color:var(--lightGrey);
 `
-
 const StockTypeStyles = styled.div`
 display:grid;
 grid-template-rows: auto 1fr;
 `
-
 const StockStyles = styled.div`
 display:grid;
 grid-template-rows: 1fr;
@@ -32,8 +25,6 @@ export const StockGroupList = () => {
 
     const stockGroupURL = 'http://localhost:3001/api/stocktypes'
 
-    // to get all stocktypes and their stock
-    const [stockTypes, setStockTypes] = useState([])
     // sets which stocks under which stocktype is selected
     const [currentStock, setCurrentStock] = useState([])
 
@@ -44,12 +35,7 @@ export const StockGroupList = () => {
     })
 
     // useFetch to retrieve stocktypes
-    const { data, loader, error } = useFetch(stockGroupURL)
-
-
-    useEffect(() => {
-        setStockTypes(data)
-    }, [data])
+    const { data: stockTypes, loader, error } = useFetch(stockGroupURL)
 
 
     // used to insert new stocktype into the stocktype database.
@@ -83,4 +69,3 @@ export const StockGroupList = () => {
     )
 }
 
-// .forEach(thing => { setCurrentStock(thing) })) }

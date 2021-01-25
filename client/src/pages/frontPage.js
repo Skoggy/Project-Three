@@ -4,13 +4,11 @@ import styled from 'styled-components'
 const ContainerStyles = styled.div`
 
 display: grid;
-  grid-gap: 2rem;
-   
-
-    background-color:green;
-    height: 75vh;
+grid-gap: 2rem;
+background-color:white;
+height: 75vh;
 `
-const ButtonStyles = styled.div`
+const ButtonDisplayStyles = styled.div`
 display: flex;
 justify-content:space-between;
 align-items:center;
@@ -27,11 +25,11 @@ width: 15rem;
 export const frontPage = () => {
     return (
         <ContainerStyles className="container sm mx-auto">
-            <ButtonStyles>
-                <IndividualButtonStyles>Admin Login</IndividualButtonStyles>
+            <ButtonDisplayStyles>
+                <IndividualButtonStyles onClick={() => window.location.href = '/login'}>Admin Login</IndividualButtonStyles>
 
-                <IndividualButtonStyles>Take Item</IndividualButtonStyles>
-            </ButtonStyles>
+                <IndividualButtonStyles onClick={() => window.location.href = '/takeitem'}>Take Item</IndividualButtonStyles>
+            </ButtonDisplayStyles>
 
         </ContainerStyles>
     )

@@ -30,8 +30,9 @@ router.post("/signup", async (req, res) => {
 
 // Route for logging user out
 router.get("/logout", function (req, res) {
+    console.log('hey')
     req.logout();
-    res.redirect("/");
+
 });
 
 // // Route for getting some data about our user to be used client side

@@ -30,7 +30,7 @@ export const RegisterPage = () => {
             <h1>Registration</h1>
             <input type="text" onChange={(e) => setEmail(e.target.value)} />
             <label>Password</label>
-            {console.log(email)}
+
             <input type="password" onChange={(e) => setPassword(e.target.value)} />
 
             <button onClick={handleFormSubmit}>Register</button>
