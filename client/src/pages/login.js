@@ -33,7 +33,7 @@ export const LoginPage = () => {
                     email: email,
                     password: password
                 })
-                .then(setUser(email)).then(res => window.location.href = '/admin').catch(err => console.log(err))
+                .then(res => window.location.href = '/admin').catch(err => console.log(err))
         } else {
             setError("Incorrect login")
         }
