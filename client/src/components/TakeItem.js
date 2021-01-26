@@ -58,9 +58,7 @@ export const TakeItem = () => {
         const put = { amount: search.result.amount - amounts.amount }
         axios.put(`${stockURL}/${data}`, put).then((result) => {
             console.log(result)
-
         })
-
     }
     const onAmountChange = (e) => {
         e.persist();

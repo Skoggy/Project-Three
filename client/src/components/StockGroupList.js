@@ -36,6 +36,13 @@ export const StockGroupList = () => {
         uuid: ''
     })
 
+    const [selectedStock, setSelectedStock] = useState({
+        name: '',
+        value: '',
+        amount: '',
+        uuid: ''
+    })
+
     // useFetch to retrieve stocktypes
     const { data: stockTypes, loading, error } = useFetch(stockGroupURL)
 
@@ -53,6 +60,7 @@ export const StockGroupList = () => {
         setStockTypeInput({ ...stockTypeInput, [e.target.name]: e.target.value })
     }
 
+    console.log(selectedStock)
     if (loading) return <p>Loading</p>
     else if (error) return <p>Error</p>
     // else if (stockTypes.length === 0) <p>No results found</p>
@@ -82,7 +90,7 @@ export const StockGroupList = () => {
             <StockStyles>
                 {currentStock && currentStock.map(item =>
                     <ButtonStyles
-                        key={item.uuid} onClick={() => console.log(item.amount)}>{item.name}
+                        key={item.uuid} onClick={() => setSelectedStock({ ...selectedStock, name: item.name, amount: item.amount, value: item.value, uuid: item.uuid })}>{item.name}
                     </ButtonStyles>)}
             </StockStyles>
 
