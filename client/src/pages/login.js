@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { React, useState, useContext } from 'react';
 import styled from 'styled-components';
-import { UserContext } from '../utils/UserContext';
+import { UserContext, useUserContext } from '../utils/UserContext';
 
 
 const InputStyles = styled.div`
@@ -21,12 +21,13 @@ export const LoginPage = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
-    const { user, setUser } = useContext(UserContext)
+    const [user, setUser] = useUserContext(UserContext)
 
     function handleFormSubmit(e) {
         e.preventDefault();
         if (email && password) {
-
+            // setUser(email)
+            console.log(user)
             axios.post(
                 'http://localhost:3001/api/login',
                 {

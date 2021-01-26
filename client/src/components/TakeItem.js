@@ -3,10 +3,33 @@ import { useFetch } from './hooks/useFetch';
 import { Hint } from 'react-autocomplete-hint';
 import styled from 'styled-components'
 import axios from 'axios';
+import { Card } from './Card';
+
+const Container = styled.div`
+display:grid;
+justify-items:center;
 
 
-const FilloutStyles = styled.div`
+`
 
+
+const FilloutStyles = styled.form`
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+   -webkit-appearance: none;
+   margin: 0;
+}
+
+
+
+input {
+    width: rem;
+}
+input[type="number"] {
+   -moz-appearance: textfield;
+   width:1.5rem;
+}
 `
 
 export const TakeItem = () => {
@@ -27,7 +50,7 @@ export const TakeItem = () => {
 
     useEffect(() => {
         setOption(data)
-    }, [data])
+    }, [data,])
 
     const takeStock = (e) => {
         e.preventDefault();
@@ -35,6 +58,7 @@ export const TakeItem = () => {
         const put = { amount: search.result.amount - amounts.amount }
         axios.put(`${stockURL}/${data}`, put).then((result) => {
             console.log(result)
+
         })
 
     }
@@ -53,34 +77,38 @@ export const TakeItem = () => {
             if (thing.name === search.search) {
                 console.log(thing, 'match')
                 setSearch({ ...search, result: thing })
-                // } else {
-                //     setSearch({ ...search, result: '' })
+
             }
         })
     }
     return (
-        <form>
-            <Hint options={options}>
-                <input type="text" placeholder="Search" onChange={(e) => setSearch({ ...search, search: e.target.value })} />
-            </Hint>
-            <button onClick={checkMatch}>Check</button>
-            {search.result.name ?
-                <div>
+        <Container>
+            <FilloutStyles>
+                <Hint options={options}>
+                    <input type="text" placeholder="Search" onChange={(e) => setSearch({ ...search, search: e.target.value })} />
+                </Hint>
+                <button onClick={checkMatch}>Check</button>
+                {search.result.name ?
+                    <div>
 
-                    <label>{search.result.name}</label>
-                    <p>{search.result.amount}</p>
-                    <input type="number"
-                        name="TakeStock"
-                        id="TakeStock"
-                        value={amounts.amount}
-                        onChange={onAmountChange} />
-                    <button onClick={takeStock}>Take</button>
+                        <Card
+                            title={search.result.name}
+                            body=''
+                            amount={search.result.amount - amounts.amount}
+                        />
+                        <input type="number"
+                            name="TakeStock"
+                            id="TakeStock"
+                            value={amounts.amount}
+                            onChange={onAmountChange} />
+                        <button onClick={takeStock}>Take</button>
 
-                </div >
-                :
-                <div>No Result Found</div>}
+                    </div >
+                    :
+                    <div>No Result Found</div>}
 
-        </form >
+            </FilloutStyles >
+        </Container>
     )
 }
 

@@ -9,7 +9,7 @@ display:flex;
 `
 const ButtonStyles = styled.button`
 padding: 8px;
-background-color:var(--lightGrey);
+background-color:pink;
 border-color:var(--lightGrey);
 font-size:2rem;
 `
@@ -82,7 +82,7 @@ export const StockGroupList = () => {
             <StockStyles>
                 {currentStock && currentStock.map(item =>
                     <ButtonStyles
-                        key={item.uuid} onClick={() => console.log(item.value)}>{item.name}
+                        key={item.uuid} onClick={() => console.log(item.amount)}>{item.name}
                     </ButtonStyles>)}
             </StockStyles>
 

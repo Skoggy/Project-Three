@@ -4,6 +4,7 @@ import { useUserContext } from '../utils/UserContext';
 
 export default function ProtectedRoute({ component: Component, ...rest }) {
     const { user } = useUserContext()
+    console.log({ user })
     return <Route {...rest}
         render={(props) =>
             user ?

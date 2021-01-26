@@ -5,8 +5,6 @@ import Header from './components/Header';
 import Typography from './styles/Typography';
 import Footer from './components/Footer'
 import { LoginPage } from './pages/login'
-
-// import User from './components/User'
 import ProtectedRoute from './components/ProtectedRoute'
 import { UserContext, useUserContext } from './utils/UserContext';
 import { frontPage } from './pages/frontPage';
@@ -19,14 +17,14 @@ import { takeItemPage } from './pages/takeItemPage'
 
 function App() {
 
-  // const { user, setUser } = useContext(UserContext)
+  // const [user, setUser] = useContext(UserContext)
   // const providerValue = useMemo(() => ({ user, setUser }), [user, setUser])
-  const user = "chris"
+
 
   // console.log(user)
 
   return (
-    <UserContext.Provider value={user}>
+    <UserContext.Provider value={"chris"}>
       <GlobalStyles />
       <Typography />
       <Header />
