@@ -93,8 +93,14 @@ export const StockGroupList = () => {
                         key={item.uuid} onClick={() => setSelectedStock({ ...selectedStock, name: item.name, amount: item.amount, value: item.value, uuid: item.uuid })}>{item.name}
                     </ButtonStyles>)}
             </StockStyles>
-
-
+            {selectedStock ?
+                <form>
+                    <Input
+                        type="text"
+                        value={selectedStock.name} />
+                </form>
+                :
+                <div></div>}
         </FlexDivisionStyles>
     )
 }

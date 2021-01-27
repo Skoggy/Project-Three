@@ -3,10 +3,12 @@ import styled from 'styled-components';
 
 const HeaderStyles = styled.div`
  
-background-color: var(--lightBlue);
-height: 6rem;
+background-color: var(--red);
+height: 8rem;
 text-align: center;
-font-size: 4rem;
+font-size: 6rem;
+color:white;
+border-radius:8px;
 
 `
 
