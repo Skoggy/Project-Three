@@ -16,6 +16,7 @@ module.exports = {
       name: "5mm Screw",
       value: 0.1,
       amount: 1000,
+      minAmount: 1000,
       stockTypeId: 5,
       createdAt: Sequelize.literal('NOW()'),
       updatedAt: Sequelize.literal('NOW()')
@@ -25,6 +26,7 @@ module.exports = {
       name: "10mm Screw",
       value: 0.2,
       amount: 1000,
+      minAmount: 1000,
       stockTypeId: 5,
       createdAt: Sequelize.literal('NOW()'),
       updatedAt: Sequelize.literal('NOW()')
@@ -34,6 +36,7 @@ module.exports = {
       name: "2mm Steel",
       value: 55.50,
       amount: 66,
+      minAmount: 66,
       stockTypeId: 1,
       createdAt: Sequelize.literal('NOW()'),
       updatedAt: Sequelize.literal('NOW()')
@@ -42,7 +45,8 @@ module.exports = {
       uuid: "a1d9b91e-0239-426f-afde-8d3b351e1605",
       name: "3mm Steel",
       value: 85.00,
-      amount: 3,
+      amount: 2,
+      minAmount: 1,
       stockTypeId: 1,
       createdAt: Sequelize.literal('NOW()'),
       updatedAt: Sequelize.literal('NOW()')
@@ -52,6 +56,7 @@ module.exports = {
       name: "1.2mm Steel",
       value: 40,
       amount: 30,
+      minAmount: 30,
       stockTypeId: 1,
       createdAt: Sequelize.literal('NOW()'),
       updatedAt: Sequelize.literal('NOW()')
@@ -61,6 +66,7 @@ module.exports = {
       name: "3mm Aluminium",
       value: 120.00,
       amount: 6,
+      minAmount: 5,
       stockTypeId: 2,
       createdAt: Sequelize.literal('NOW()'),
       updatedAt: Sequelize.literal('NOW()')
@@ -70,6 +76,7 @@ module.exports = {
       name: "5mm Aluminium",
       value: 200.00,
       amount: 2,
+      minAmount: 1,
       stockTypeId: 2,
       createdAt: Sequelize.literal('NOW()'),
       updatedAt: Sequelize.literal('NOW()')
@@ -79,6 +86,7 @@ module.exports = {
       name: "75mmX40mm C Channel",
       value: 90,
       amount: 6,
+      minAmount: 6,
       stockTypeId: 3,
       createdAt: Sequelize.literal('NOW()'),
       updatedAt: Sequelize.literal('NOW()')
@@ -88,6 +96,7 @@ module.exports = {
       name: "25mmX25mm RHS",
       value: 45,
       amount: 30,
+      minAmount: 10,
       stockTypeId: 3,
       createdAt: Sequelize.literal('NOW()'),
       updatedAt: Sequelize.literal('NOW()')

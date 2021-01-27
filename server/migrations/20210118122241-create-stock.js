@@ -23,6 +23,11 @@ module.exports = {
         type: DataTypes.INTEGER,
         allowNull: false
       },
+      minAmount: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+
       stocktypeId: {
         type: DataTypes.INTEGER,
         allowNull: false

@@ -34,13 +34,18 @@ module.exports = (sequelize, DataTypes) => {
     amount: {
       type: DataTypes.INTEGER,
       allowNull: false,
-    }
-  },
+    },
 
-    {
-      sequelize,
-      tableName: 'stock',
-      modelName: 'Stock',
-    });
+
+    minAmount: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+
+  }, {
+    sequelize,
+    tableName: 'stock',
+    modelName: 'Stock',
+  });
   return Stock;
 };

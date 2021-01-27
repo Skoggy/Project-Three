@@ -17,7 +17,23 @@ export default function ChartTest(props) {
 
 
 
+    // const [dataChart, setDataChart] = useState({})
 
+
+    // useEffect(() => {
+    //     let amount = [];
+    //     let dateTaken = [];
+    //     amount.push(selectedStock.amount)
+    //     dateTaken.push(selectedStock.updatedAt)
+    //     console.log(selectedStock.updatedAt)
+    //     setDataChart({
+    //         labels: dateTaken,
+    //         datasets: [{
+    //             label: 'Amount In Stock',
+    //             data: amount
+    //         }]
+    //     })
+    // }, [selectedStock.amount, selectedStock.updatedAt])
 
     // useEffect(() => {
     //     let amount = [];

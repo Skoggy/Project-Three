@@ -68,7 +68,8 @@ export const StockGroupList = () => {
         value: '',
         amount: '',
         uuid: '',
-        updatedAt: ''
+        updatedAt: '',
+        minAmount: ''
     })
 
     // useFetch to retrieve stocktypes
@@ -76,7 +77,7 @@ export const StockGroupList = () => {
 
 
     // used to insert new stocktype into the stocktype database.
-    const insertStockGroup = (e) => {
+    const insertStock = (e) => {
         e.preventDefault();
         const data = {
             name: selectedStock.name,
@@ -88,13 +89,13 @@ export const StockGroupList = () => {
         })
     }
 
-    // const insertStock = (e) => {
-    //     e.preventDefault();
-    //     const data = { name: stockTypeInput.name }
-    //     axios.post(stockGroupURL, data).then((result) => {
-    //         console.log(result.data)
-    //     })
-    // }
+    const insertStockGroup = (e) => {
+        e.preventDefault();
+        const data = { name: stockTypeInput.name }
+        axios.post(stockGroupURL, data).then((result) => {
+            console.log(result.data)
+        })
+    }
 
 
     const onChangeStockType = (e) => {
@@ -102,25 +103,8 @@ export const StockGroupList = () => {
         setStockTypeInput({ ...stockTypeInput, [e.target.name]: e.target.value })
     }
 
-    const [dataChart, setDataChart] = useState({})
+    stockTypes && stockTypes.forEach(thing => { (thing.stocks.forEach(item => { console.log(item.minAmount) })) })
 
-
-    useEffect(() => {
-        let amount = [];
-        let dateTaken = [];
-        amount.push(selectedStock.amount)
-        dateTaken.push(selectedStock.updatedAt)
-        console.log(selectedStock.updatedAt)
-        setDataChart({
-            labels: dateTaken,
-            datasets: [{
-                label: 'Amount In Stock',
-                data: amount
-            }]
-        })
-    }, [selectedStock.amount, selectedStock.updatedAt])
-
-    console.log(selectedStock)
     if (loading) return <p>Loading</p>
     else if (error) return <p>Error</p>
     // else if (stockTypes.length === 0) <p>No results found</p>
@@ -151,7 +135,7 @@ export const StockGroupList = () => {
             <StockStyles>
                 {currentStock && currentStock.map(item =>
                     <ButtonStyles
-                        key={item.uuid} onClick={() => setSelectedStock({ ...selectedStock, name: item.name, amount: item.amount, value: item.value, uuid: item.uuid, updatedAt: item.updatedAt })}>{item.name}
+                        key={item.uuid} onClick={() => setSelectedStock({ ...selectedStock, name: item.name, amount: item.amount, value: item.value, uuid: item.uuid, updatedAt: item.updatedAt, minAmount: item.minAmount })}>{item.name}
                     </ButtonStyles>)}
 
 
@@ -160,7 +144,7 @@ export const StockGroupList = () => {
                         <form>
                             <h3>Item: {selectedStock.name}</h3>
                             <p>Value: {selectedStock.value}</p>
-                            <p>Amount Remaning: {selectedStock.amount}</p>
+                            <p>Amount Remaning: {selectedStock.amount} / {selectedStock.minAmount}</p>
 
                             <Input
                                 type="text"
@@ -170,9 +154,9 @@ export const StockGroupList = () => {
                         <div></div>}
                 </SelectedStock>
             </StockStyles>
-            <Chart>
+            {/* <Chart>
                 <Line data={dataChart} />
-            </Chart>
+            </Chart> */}
 
         </FlexDivisionStyles>
     )
