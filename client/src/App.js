@@ -15,17 +15,15 @@ import { takeItemPage } from './pages/takeItemPage'
 import styled from 'styled-components'
 
 
+
 function App() {
 
   const Flex = styled.div`
 
-    height: 98vh;
-    margin: 0;
-
-      .box{  display: flex;
+        display: flex;
         flex-flow: column;
-        height: 100%;
-      }
+        height: 98vh;
+      
 
         .header {
           flex: 0 1 auto;
@@ -45,33 +43,33 @@ function App() {
 
   return (
     <Flex>
-      <div className="box">
-        <UserContext.Provider value={"chris"}>
-          <GlobalStyles />
-          <Typography />
-          <div className="header">
-            <Header />
-          </div>
-          <div className="content">
-            <Router>
-              <Switch>
 
-                <Route exact path='/login' component={LoginPage} />
-                <Route exact path='/stocktype' component={SelectStockPage} />
-                <Route exact path='/takeitem' component={takeItemPage} />
-                <Route exact path='/register' component={RegisterPage} />
-                <Route exact path='/' component={frontPage} />
-                <Route exact path='/admin' component={Admin} />
-                {/* <ProtectedRoute exact path='/admin' component={Admin} /> */}
+      <UserContext.Provider value={"chris"}>
+        <GlobalStyles />
+        <Typography />
+        <div className="header">
+          <Header />
+        </div>
+        <div className="content">
+          <Router>
+            <Switch>
 
-              </Switch>
-            </Router>
-          </div>
-          <div className="footer">
-            <Footer />
-          </div>
-        </UserContext.Provider>
-      </div>
+              <Route exact path='/login' component={LoginPage} />
+              <Route exact path='/stocktype' component={SelectStockPage} />
+              <Route exact path='/takeitem' component={takeItemPage} />
+              <Route exact path='/register' component={RegisterPage} />
+              <Route exact path='/' component={frontPage} />
+              <Route exact path='/admin' component={Admin} />
+              {/* <ProtectedRoute exact path='/admin' component={Admin} /> */}
+
+            </Switch>
+          </Router>
+        </div>
+        <div className="footer">
+          <Footer />
+        </div>
+      </UserContext.Provider>
+
     </Flex >
 
   );

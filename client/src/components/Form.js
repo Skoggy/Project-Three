@@ -2,17 +2,20 @@ import React from "react";
 
 // This file exports the Input, TextArea, and FormBtn components
 
+
+
 export function Input(props) {
     return (
-        <div className="form-group">
-            <input {...props} />
+        <div>
+            <input {...props}
+                onChange={props.onChange} />
         </div>
     );
 }
 
 export function TextArea(props) {
     return (
-        <div className="form-group">
+        <div>
             <textarea  {...props} />
         </div>
     );
