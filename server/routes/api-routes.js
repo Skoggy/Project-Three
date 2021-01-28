@@ -142,6 +142,26 @@ router.post('/stocks', async (req, res) => {
     }
 })
 
+router.put('/stocknote/:uuid', async (req, res) => {
+    const uuid = req.params.uuid
+    const { note } = req.body;
+    try {
+        const stock = await Stock.findOne({
+            where: { uuid }
+        })
+
+        stock.note = note;
+
+        await stock.save()
+
+        return res.json()
+
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json(err)
+    }
+})
+
 router.get('/stocks', async (req, res) => {
     try {
         const stocks = await Stock.findAll({ include: 'stocktype' })

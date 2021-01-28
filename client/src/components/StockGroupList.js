@@ -160,7 +160,8 @@ export const StockGroupList = () => {
                                 amount: item.amount,
                                 value: item.value,
                                 uuid: item.uuid,
-                                minAmount: item.minAmount
+                                minAmount: item.minAmount,
+                                note: item.note
                             })}>
                         {item.name}
                     </ButtonStyles>)}
@@ -171,6 +172,7 @@ export const StockGroupList = () => {
                             <form>
                                 <h3>Item: {selectedStock.name}</h3>
                                 <p>Value: {selectedStock.value}</p>
+                                <p>{selectedStock.note}</p>
                                 <p>Amount Remaning: {selectedStock.amount} / {selectedStock.minAmount}</p>
 
                                 <Input

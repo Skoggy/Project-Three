@@ -19,7 +19,6 @@ input {
     font-size: 3rem;
 }
 `
-
 const Button = styled.button`
 
 	padding: 10px 40px;
@@ -62,10 +61,15 @@ input[type="number"] {
 
 export const TakeItem = () => {
     const stockURL = 'http://localhost:3001/api/stocks'
+    const noteUrl = 'http://localhost:3001/api/stocknote'
     // search and the matching result
     const [search, setSearch] = useState({
         result: {},
         search: ''
+    })
+    const [note, setNote] = useState({
+        note: '',
+        sendNote: ''
     })
     // stores all of the stock names to allow for autofill
     const [option, setOption] = useState([])
@@ -92,10 +96,26 @@ export const TakeItem = () => {
             console.log(result)
         })
     }
+
+    // creates note from database
+    const addNote = (e) => {
+        e.preventDefault();
+        const data = search.result.uuid
+        const notes = { note: note.sendNote }
+        axios.put(`${noteUrl}/${data}`, notes).then((result) => {
+            console.log(note.sendNote)
+            setNote({ ...note, note: note.sendNote })
+        })
+    }
     // takes what is put in the amount to be updated.
     const onAmountChange = (e) => {
         e.persist();
         setAmounts({ ...amounts, amount: e.target.value })
+    }
+
+    const onNoteChange = (e) => {
+        e.persist();
+        setNote({ ...note, sendNote: e.target.value })
     }
 
     // pushes the names of all the stock into the options array to be used for autofill.
@@ -108,6 +128,9 @@ export const TakeItem = () => {
         data.forEach(thing => {
             if (thing.name === search.search) {
                 setSearch({ ...search, result: thing })
+                setNote({ ...note, note: thing.note })
+
+
             }
         })
     }
@@ -120,27 +143,48 @@ export const TakeItem = () => {
                         <input type="text" placeholder="Search" onChange={(e) => setSearch({ ...search, search: e.target.value })} />
                     </Hint>
                     <Button onClick={checkMatch}>Check</Button>
-                    {search.result.name ?
-                        <div>
-                            <Card
-                                title={search.result.name}
-                                // TODO: create a note leaving ability to allow people taking
-                                // to let the admin know any info about issues/damaged stock.
-                                body=''
-                                amount={search.result.amount - amounts.amount}
-                            />
-                            <input type="number"
-                                name="TakeStock"
-                                id="TakeStock"
-                                value={amounts.amount}
-                                onChange={onAmountChange} />
-                            <Button onClick={takeStock}>Take</Button>
 
-                        </div >
-                        :
-                        <div><h3>No Result Found</h3></div>}
+                    <div>
+                        <Card
+                            title={search.result.name}
+                            // TODO: create a note leaving ability to allow people taking
+                            // to let the admin know any info about issues/damaged stock.
+                            body=''
+                            amount={search.result.amount - amounts.amount}
+                        />
+                        <input type="number"
+                            name="TakeStock"
+                            id="TakeStock"
+                            value={amounts.amount}
+                            onChange={onAmountChange} />
+                        <Button onClick={takeStock}>Take</Button>
+                        <div>
+
+
+                            <input type="text"
+                                name='note'
+                                id='note'
+                                value={note.sendNote}
+                                onChange={onNoteChange} />
+                            <Button onClick={addNote}>Add Note</Button>
+
+                            <p>{note.note}</p>
+                        </div>
+                    </div >
+
+
 
                 </FilloutStyles >
+                {/* 
+                <div>
+                    {note.note}
+                    <input type="text"
+                        name='note'
+                        id='note'
+                        value={note.sendNote}
+                        onChange={onNoteChange} />
+                    <Button onClick={addNote}>Add Note</Button>
+                </div> */}
             </Container>
         </div>
     )
