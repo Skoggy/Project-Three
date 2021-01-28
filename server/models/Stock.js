@@ -12,11 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     static associate({ Stocktype, Notes }) {
       // define association here
       this.belongsTo(Stocktype, { foreignKey: 'stocktypeId', as: 'stocktype' })
-      this.hasMany(Notes, { foreignKey: 'stockId', as: 'notes' })
+      this.hasMany(Notes, { foreignKey: 'stockId' })
     }
-    toJSON() {
-      return { ...this.get(), id: undefined }
-    }
+
   };
   Stock.init({
     uuid: {
@@ -36,7 +34,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-
+    note: {
+      type: DataTypes.STRING
+    },
 
     minAmount: {
       type: DataTypes.INTEGER,

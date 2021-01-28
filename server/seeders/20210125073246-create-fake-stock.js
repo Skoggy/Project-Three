@@ -18,6 +18,7 @@ module.exports = {
       amount: 1000,
       minAmount: 1000,
       stockTypeId: 5,
+      note: "There were 10 damaged in the box",
       createdAt: Sequelize.literal('NOW()'),
       updatedAt: Sequelize.literal('NOW()')
     },
@@ -111,6 +112,8 @@ module.exports = {
      *
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
+     *   await queryInterface.bulkDelete('stocktype', null, {});
      */
+    await queryInterface.bulkDelete('stock', null, {});
   }
 };

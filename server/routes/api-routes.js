@@ -128,12 +128,12 @@ router.put('/stocktypes/:uuid', async (req, res) => {
 })
 
 router.post('/stocks', async (req, res) => {
-    const { stocktypeUuid, name, value, amount } = req.body
+    const { stocktypeUuid, name, value, amount, minAmount, note } = req.body
 
     try {
         const stocktype = await Stocktype.findOne({ where: { uuid: stocktypeUuid } })
 
-        const stock = await Stock.create({ name, amount, value, stocktypeId: stocktype.id })
+        const stock = await Stock.create({ name, amount, value, minAmount, note, stocktypeId: stocktype.id })
 
         return res.json(stock)
     } catch (err) {
@@ -171,6 +171,7 @@ router.put('/stocks/:uuid', async (req, res) => {
 
     }
 })
+
 
 
 module.exports = router

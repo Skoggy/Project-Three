@@ -15,9 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     }
 
 
-    toJSON() {
-      return { ...this.get(), id: undefined }
-    }
+
   };
   Stocktype.init({
     uuid: {

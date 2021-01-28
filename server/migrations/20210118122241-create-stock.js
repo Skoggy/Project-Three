@@ -27,6 +27,9 @@ module.exports = {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      note: {
+        type: DataTypes.STRING
+      },
 
       stocktypeId: {
         type: DataTypes.INTEGER,
