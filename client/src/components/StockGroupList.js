@@ -3,55 +3,59 @@ import styled from 'styled-components';
 import axios from "axios"
 import { useFetch } from './hooks/useFetch';
 import { Input, TextArea, FormBtn } from '../components/Form'
-
-import { Line } from 'react-chartjs-2';
+import API from '../utils/API'
 
 const FlexDivisionStyles = styled.div`
 display:grid;
 grid-template-columns: repeat(3, minmax(0, 1fr));
-width: 100%;
+width: 100vw;
+height: 69vh;
 
 `
+const FormStyles = styled.div`
+display: grid;
+justify-items:center;
+    h3 {
+        font-size:2rem;
+    }
+    p {
+        font-size: 1.5rem;
+    }
+`
 
+const ButtonGrid = styled.div`
+display:grid;
+grid-template-columns: 8fr 1fr;
+`
 const StockTypeStyles = styled.div`
 display:grid;
 grid-template-rows: repeat( auto-fit, minmax(50, 2fr) );
-grid-template-columns: repeat(auto-fit, minmax(50, 2fr) );
+grid-template-columns: repeat(auto-fit, minmax(50, 10fr) );
+justify-items:stretch;
 padding-right: 10px;
+overflow:auto;
 /* border: 5px solid red; */
 `
 const StockStyles = styled.div`
 display:grid;
-grid-template-rows: repeat( auto-fit, minmax( 1fr) );
+
 /* border: 5px solid red; */
 `
-
 const SelectedStock = styled.div`
-
+max-height:30vh;
 border: 5px solid red;
-
 
 `
 const ButtonStyles = styled.button`
-border-right: none;
-border-left: none;
+
 background-color:var(--lightGrey);
 border-color:var(--lightGrey);
-font-size:2rem;
+font-size:1.5rem;
 min-height: 3rem;
 max-height: 3rem;
 `
 
-
-
-const Chart = styled.div`
-  margin: 0 auto;
- width:33vh;
- height:75vh;
-`
 export const StockGroupList = () => {
-
-
     const stockGroupURL = 'http://localhost:3001/api/stocktypes'
 
     // sets which stocks under which stocktype is selected
@@ -68,15 +72,20 @@ export const StockGroupList = () => {
         value: '',
         amount: '',
         uuid: '',
-        updatedAt: '',
         minAmount: ''
     })
 
     // useFetch to retrieve stocktypes
-    const { data: stockTypes, loading, error } = useFetch(stockGroupURL)
+    const { data: stockTypes, loading, error, updateState, refreshState } = useFetch(stockGroupURL)
 
+    const deleteStockType = (item) => {
+        const uuid = item.uuid;
+        API.delete(uuid).then((result) => {
 
-    // used to insert new stocktype into the stocktype database.
+        })
+    }
+
+    // used to insert new stock into database.
     const insertStock = (e) => {
         e.preventDefault();
         const data = {
@@ -85,39 +94,33 @@ export const StockGroupList = () => {
             amount: selectedStock.amount,
         }
         axios.post(stockGroupURL, data).then((result) => {
-            console.log(result.data)
+
         })
     }
-
+    // used to insert new stocktype into the stocktype database.
     const insertStockGroup = (e) => {
         e.preventDefault();
         const data = { name: stockTypeInput.name }
         axios.post(stockGroupURL, data).then((result) => {
-            console.log(result.data)
+            updateState(result.data)
+
         })
     }
-
+    console.log(stockTypeInput)
 
     const onChangeStockType = (e) => {
         // e.persist();
         setStockTypeInput({ ...stockTypeInput, [e.target.name]: e.target.value })
     }
 
-    stockTypes && stockTypes.forEach(thing => { (thing.stocks.forEach(item => { console.log(item.minAmount) })) })
+    // stockTypes && stockTypes.forEach(thing => { (thing.stocks.forEach(item => { console.log(item.minAmount) })) })
 
     if (loading) return <p>Loading</p>
     else if (error) return <p>Error</p>
     // else if (stockTypes.length === 0) <p>No results found</p>
     return (
         <FlexDivisionStyles>
-
             <StockTypeStyles>
-                {stockTypes && stockTypes.map(item =>
-                    <ButtonStyles
-                        key={item.uuid}
-                        onClick={() => setCurrentStock(item.stocks)}>{item.name}
-                    </ButtonStyles>)}
-
                 <form onSubmit={insertStockGroup}>
                     <label>Name</label>
                     <input type="text"
@@ -130,33 +133,55 @@ export const StockGroupList = () => {
                         type="submit">Submit
                     </button>
                 </form>
+
+                {stockTypes && stockTypes.map(item =>
+                    <ButtonGrid>
+
+                        <ButtonStyles
+                            key={item.uuid}
+                            onClick={() => setCurrentStock(item.stocks)}>{item.name}
+                        </ButtonStyles>
+                        <ButtonStyles
+                            onClick={() => deleteStockType(item)}
+                        >X</ButtonStyles>
+                    </ButtonGrid>
+                )}
+
             </StockTypeStyles>
 
             <StockStyles>
                 {currentStock && currentStock.map(item =>
                     <ButtonStyles
-                        key={item.uuid} onClick={() => setSelectedStock({ ...selectedStock, name: item.name, amount: item.amount, value: item.value, uuid: item.uuid, updatedAt: item.updatedAt, minAmount: item.minAmount })}>{item.name}
+                        key={item.uuid}
+                        onClick={() =>
+                            setSelectedStock({
+                                ...selectedStock,
+                                name: item.name,
+                                amount: item.amount,
+                                value: item.value,
+                                uuid: item.uuid,
+                                minAmount: item.minAmount
+                            })}>
+                        {item.name}
                     </ButtonStyles>)}
-
 
                 <SelectedStock>
                     {selectedStock ?
-                        <form>
-                            <h3>Item: {selectedStock.name}</h3>
-                            <p>Value: {selectedStock.value}</p>
-                            <p>Amount Remaning: {selectedStock.amount} / {selectedStock.minAmount}</p>
+                        <FormStyles>
+                            <form>
+                                <h3>Item: {selectedStock.name}</h3>
+                                <p>Value: {selectedStock.value}</p>
+                                <p>Amount Remaning: {selectedStock.amount} / {selectedStock.minAmount}</p>
 
-                            <Input
-                                type="text"
-                                onChange={console.log(selectedStock)} />
-                        </form>
+                                <Input
+                                    type="text"
+                                    onChange={(e) => console.log(e.target.value)} />
+                            </form>
+                        </FormStyles>
                         :
                         <div></div>}
                 </SelectedStock>
             </StockStyles>
-            {/* <Chart>
-                <Line data={dataChart} />
-            </Chart> */}
 
         </FlexDivisionStyles>
     )

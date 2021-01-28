@@ -1,5 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 
+
 const GlobalStyles = createGlobalStyle`
 
 :root {
@@ -11,7 +12,6 @@ const GlobalStyles = createGlobalStyle`
     --darkRed: #2A0001;
 }
 
- 
 
 
 

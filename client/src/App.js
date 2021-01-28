@@ -22,8 +22,8 @@ function App() {
 
         display: flex;
         flex-flow: column;
-        height: 98vh;
-      
+        height:98vh;
+        max-height: 98vh;
 
         .header {
           flex: 0 1 auto;

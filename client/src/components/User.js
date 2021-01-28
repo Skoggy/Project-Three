@@ -23,7 +23,6 @@ export default function User() {
     })
     return (
         <div>
-
             {data.map(item => (
                 <div>
                     <p key={item.id}>{item.name}</p>
