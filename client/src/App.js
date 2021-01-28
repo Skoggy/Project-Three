@@ -1,12 +1,12 @@
-import { React, useState, useMemo, useEffect, useContext } from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { React } from 'react';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import GlobalStyles from './styles/GlobalStyles';
 import Header from './components/Header';
 import Typography from './styles/Typography';
 import Footer from './components/Footer'
 import { LoginPage } from './pages/login'
 import ProtectedRoute from './components/ProtectedRoute'
-import { UserContext, useUserContext } from './utils/UserContext';
+import { UserProvider } from './utils/UserContext';
 import { frontPage } from './pages/frontPage';
 import { SelectStockPage } from './pages/selectStockPage';
 import { RegisterPage } from './pages/registerPage';
@@ -44,7 +44,7 @@ function App() {
   return (
     <Flex>
 
-      <UserContext.Provider value={"chris"}>
+      <UserProvider>
         <GlobalStyles />
         <Typography />
         <div className="header">
@@ -59,8 +59,8 @@ function App() {
               <Route exact path='/takeitem' component={takeItemPage} />
               <Route exact path='/register' component={RegisterPage} />
               <Route exact path='/' component={frontPage} />
-              <Route exact path='/admin' component={Admin} />
-              {/* <ProtectedRoute exact path='/admin' component={Admin} /> */}
+              {/* <Route exact path='/admin' component={Admin} /> */}
+              <ProtectedRoute exact path='/admin' component={Admin} />
 
             </Switch>
           </Router>
@@ -68,7 +68,7 @@ function App() {
         <div className="footer">
           <Footer />
         </div>
-      </UserContext.Provider>
+      </UserProvider>
 
     </Flex >
 

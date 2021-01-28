@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components'
 
+
 const ContainerStyles = styled.div`
 background-color:white;
     display:flex;
@@ -55,6 +56,7 @@ export const frontPage = () => {
 
 
         </ContainerStyles>
+
 
     )
 }

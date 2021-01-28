@@ -20,7 +20,11 @@ router.post("/signup", async (req, res) => {
         const user = await User.create({
             email, password
         })
-        return res.json(user)
+        const data = {
+            id: user.id,
+            email: user.email
+        }
+        return res.json(data)
     } catch (err) {
         console.log(err)
         return res.status(500).json(err)

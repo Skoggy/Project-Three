@@ -1,18 +1,23 @@
-import { React, useState, useEffect } from 'react';
+import { React, useState } from 'react';
 import styled from 'styled-components';
 import axios from "axios"
 import { useFetch } from './hooks/useFetch';
-import { Input, TextArea, FormBtn } from '../components/Form'
+import { Input } from '../components/Form'
 import API from '../utils/API'
 
 const FlexDivisionStyles = styled.div`
-display:grid;
-grid-template-columns: repeat(3, minmax(0, 1fr));
+display:flex;
+align-self:stretch;
+flex-flow: row;
 width: 100vw;
 height: 69vh;
-
+@media (max-width: 700px ) {
+       
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    }
 `
 const FormStyles = styled.div`
+ flex: 0 1 auto;
 display: grid;
 justify-items:center;
     h3 {
@@ -28,6 +33,9 @@ display:grid;
 grid-template-columns: 8fr 1fr;
 `
 const StockTypeStyles = styled.div`
+
+flex: 1 1 auto;
+
 display:grid;
 grid-template-rows: repeat( auto-fit, minmax(50, 2fr) );
 grid-template-columns: repeat(auto-fit, minmax(50, 10fr) );
@@ -38,13 +46,14 @@ overflow:auto;
 `
 const StockStyles = styled.div`
 display:grid;
-
+grid-template-columns: repeat(2, minmax(0, 1fr));
 /* border: 5px solid red; */
 `
 const SelectedStock = styled.div`
 max-height:30vh;
 border: 5px solid red;
-
+flex: 0 1 auto;
+align-self:flex-end;
 `
 const ButtonStyles = styled.button`
 
@@ -113,7 +122,7 @@ export const StockGroupList = () => {
         setStockTypeInput({ ...stockTypeInput, [e.target.name]: e.target.value })
     }
 
-    // stockTypes && stockTypes.forEach(thing => { (thing.stocks.forEach(item => { console.log(item.minAmount) })) })
+
 
     if (loading) return <p>Loading</p>
     else if (error) return <p>Error</p>
@@ -172,7 +181,6 @@ export const StockGroupList = () => {
                             <form>
                                 <h3>Item: {selectedStock.name}</h3>
                                 <p>Value: {selectedStock.value}</p>
-                                <p>{selectedStock.note}</p>
                                 <p>Amount Remaning: {selectedStock.amount} / {selectedStock.minAmount}</p>
 
                                 <Input

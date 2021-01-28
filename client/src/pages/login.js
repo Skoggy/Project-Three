@@ -1,8 +1,10 @@
 import axios from 'axios';
-import { React, useState, useContext } from 'react';
+import { React, useState } from 'react';
 import styled from 'styled-components';
-import { UserContext, useUserContext } from '../utils/UserContext';
+import { useUserContext } from '../utils/UserContext';
 import bg from '../assets/images/background.jpg';
+import { withRouter } from "react-router-dom"
+
 
 
 const Container = styled.div`
@@ -21,7 +23,7 @@ const Container = styled.div`
 `
 const OtherHalf = styled.div`
 min-height:70vh;
-border-left: 5px solid black;
+border-left: 2px ridge black;
 margin-left: 2rem;
 background-image: url(${bg});
 width:70vh;
@@ -43,29 +45,35 @@ margin: 10px;
 }
 `
 
-export const LoginPage = () => {
+export const LoginPage = withRouter((props) => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
-    const [user, setUser] = useUserContext(UserContext)
+    const { setUser } = useUserContext()
 
-    function handleFormSubmit(e) {
+    async function handleFormSubmit(e) {
         e.preventDefault();
         if (email && password) {
-            // setUser(email)
-            console.log(user)
-            axios.post(
-                'http://localhost:3001/api/login',
-                {
-                    email: email,
-                    password: password
-                })
-                .then(res => window.location.href = '/admin').catch(err => console.log(err))
-        } else {
-            setError("Incorrect login")
+            try {
+                const { data } = await axios.post(
+                    'http://localhost:3001/api/login',
+                    {
+                        email: email,
+                        password: password
+                    }
+                )
+                setUser(data)
+                props.history.push("/admin")
+            } catch (e) {
+                console.log(e)
+            }
+        }
+        else {
+            setError("There should be a password and email")
         }
     }
+
     return (
 
         <Container>
@@ -77,6 +85,7 @@ export const LoginPage = () => {
                 <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
                 {console.log(password)}
                 <button onClick={handleFormSubmit}>Login</button>
+                <button onClick={() => window.location.href = '/register'}>Register New Admin</button>
             </InputStyles>
             <div>{error}</div>
             <OtherHalf></OtherHalf>
@@ -84,4 +93,4 @@ export const LoginPage = () => {
         </Container >
 
     )
-}
+})
