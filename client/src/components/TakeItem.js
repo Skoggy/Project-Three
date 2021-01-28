@@ -12,10 +12,13 @@ display:grid;
 justify-items:center;
 align-content:center;
 padding: 10px;
+margin-top: 14rem;
+
+input {
+    height: 4rem;
+    font-size: 3rem;
+}
 `
-
-
-
 
 const Button = styled.button`
 
@@ -53,7 +56,7 @@ input {
 }
 input[type="number"] {
    -moz-appearance: textfield;
-   width:1.5rem;
+   width:7rem;
 }
 `
 
@@ -135,7 +138,7 @@ export const TakeItem = () => {
 
                         </div >
                         :
-                        <div>No Result Found</div>}
+                        <div><h3>No Result Found</h3></div>}
 
                 </FilloutStyles >
             </Container>
