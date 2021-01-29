@@ -35,11 +35,7 @@ function App() {
           flex: 0 1 auto;
         }
   `
-  // const [user, setUser] = useContext(UserContext)
-  // const providerValue = useMemo(() => ({ user, setUser }), [user, setUser])
 
-
-  // console.log(user)
 
   return (
     <Flex>
@@ -53,15 +49,12 @@ function App() {
         <div className="content">
           <Router>
             <Switch>
-
               <Route exact path='/login' component={LoginPage} />
               <Route exact path='/stocktype' component={SelectStockPage} />
               <Route exact path='/takeitem' component={takeItemPage} />
               <Route exact path='/register' component={RegisterPage} />
               <Route exact path='/' component={frontPage} />
-              {/* <Route exact path='/admin' component={Admin} /> */}
               <ProtectedRoute exact path='/admin' component={Admin} />
-
             </Switch>
           </Router>
         </div>

@@ -4,6 +4,7 @@ import axios from "axios"
 import { useFetch } from './hooks/useFetch';
 import { Input } from '../components/Form'
 import API from '../utils/API'
+import { PDF } from './PDF';
 
 const FlexDivisionStyles = styled.div`
 display:flex;
@@ -13,7 +14,7 @@ width: 100vw;
 height: 69vh;
 @media (max-width: 700px ) {
        
-    grid-template-rows: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(3, minmax(0, 1fr));
     }
 `
 const FormStyles = styled.div`
@@ -85,7 +86,7 @@ export const StockGroupList = () => {
     })
 
     // useFetch to retrieve stocktypes
-    const { data: stockTypes, loading, error, updateState, refreshState } = useFetch(stockGroupURL)
+    const { data: stockTypes, loading, error, updateState } = useFetch(stockGroupURL)
 
     const deleteStockType = (item) => {
         const uuid = item.uuid;
@@ -192,6 +193,8 @@ export const StockGroupList = () => {
                         <div></div>}
                 </SelectedStock>
             </StockStyles>
+
+            <PDF />
 
         </FlexDivisionStyles>
     )

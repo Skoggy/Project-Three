@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
+
 const { Stocktype, Stock, User } = require('../models');
 const passport = require('../config/passport');
-
+const pdf = require('html-pdf');
+const pdfTemplate = require('../documents/index')
 
 
 
@@ -39,38 +41,25 @@ router.get("/logout", function (req, res) {
 
 });
 
-// // Route for getting some data about our user to be used client side
-// app.get("/api/user_data", function (req, res) {
-//     if (!req.user) {
-//         // The user is not logged in, send back an empty object
-//         res.json({});
-//     } else {
-//         // Otherwise send back the user's email and id
-//         // Sending back a password, even a hashed password, isn't a good idea
-//         res.json({
-//             email: req.user.email,
-//             id: req.user.id
-//         });
-//     }
-// });
-
-// router.get("/users", function (req, res) {
-//     db.User.findAll({}).then(function (results) {
-//         res.json(results)
-//         console.log(results)
-//     })
-// })
-
-// router.get('/login', function (req, res) {
-//     res.json({ name: "chris" })
-// })
 
 
+// POST PDF generation and fetching of data
+router.post('/create-pdf', (req, res) => {
+    pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) => {
+        if (err) {
+            res.send(Promise.reject());
+        }
 
-// })
-// router.delete('/delete', (req, res) => {
-//     res.send('delete')
-// })
+        res.send(Promise.resolve());
+    });
+})
+
+
+// GET send PDF to client
+router.get('/fetch-pdf', (req, res) => {
+    res.sendFile(`${__dirname}/result.pdf`)
+})
+
 
 
 router.post('/stocktypes', async (req, res) => {
