@@ -13,6 +13,7 @@ import { RegisterPage } from './pages/registerPage';
 import { Admin } from './pages/adminPage'
 import { takeItemPage } from './pages/takeItemPage'
 import styled from 'styled-components'
+import { pdfPage } from './pages/pdfGeneration';
 
 
 
@@ -53,6 +54,7 @@ function App() {
               <Route exact path='/stocktype' component={SelectStockPage} />
               <Route exact path='/takeitem' component={takeItemPage} />
               <Route exact path='/register' component={RegisterPage} />
+              <Route exact path='/pdfpage' component={pdfPage} />
               <Route exact path='/' component={frontPage} />
               <ProtectedRoute exact path='/admin' component={Admin} />
             </Switch>

@@ -4,22 +4,22 @@ import axios from "axios"
 import { useFetch } from './hooks/useFetch';
 import { Input } from '../components/Form'
 import API from '../utils/API'
-import { PDF } from './PDF';
+
 
 const FlexDivisionStyles = styled.div`
 display:flex;
-align-self:stretch;
 flex-flow: row;
-width: 100vw;
+grid-template-columns: repeat(1, minmax(0, 1fr));
+/* width: 100vw; */
 height: 69vh;
 @media (max-width: 700px ) {
-       
+    display:grid;
     grid-template-rows: repeat(3, minmax(0, 1fr));
     }
 `
 const FormStyles = styled.div`
  flex: 0 1 auto;
-display: grid;
+
 justify-items:center;
     h3 {
         font-size:2rem;
@@ -28,32 +28,37 @@ justify-items:center;
         font-size: 1.5rem;
     }
 `
-
 const ButtonGrid = styled.div`
 display:grid;
 grid-template-columns: 8fr 1fr;
 `
 const StockTypeStyles = styled.div`
-
+display:flex;
+flex-flow: column;
 flex: 1 1 auto;
-
-display:grid;
-grid-template-rows: repeat( auto-fit, minmax(50, 2fr) );
-grid-template-columns: repeat(auto-fit, minmax(50, 10fr) );
-justify-items:stretch;
 padding-right: 10px;
 overflow:auto;
-/* border: 5px solid red; */
+width:45vh;
+border-right: 1px solid black;
+`
+
+const Middle = styled.div`
+display:flex;
+flex-flow:column;
+border-left: 1px solid black;
+min-height:43vh;
 `
 const StockStyles = styled.div`
-display:grid;
-grid-template-columns: repeat(2, minmax(0, 1fr));
-/* border: 5px solid red; */
+display:flex;
+flex-flow:column;
+
+height:69vh;
 `
 const SelectedStock = styled.div`
+display:flex;
 max-height:30vh;
 border: 5px solid red;
-flex: 0 1 auto;
+width:45vh;
 align-self:flex-end;
 `
 const ButtonStyles = styled.button`
@@ -67,6 +72,7 @@ max-height: 3rem;
 
 export const StockGroupList = () => {
     const stockGroupURL = 'http://localhost:3001/api/stocktypes'
+    const stockURL = 'http://localhost:3001/api/stocks'
 
     // sets which stocks under which stocktype is selected
     const [currentStock, setCurrentStock] = useState([])
@@ -85,6 +91,15 @@ export const StockGroupList = () => {
         minAmount: ''
     })
 
+    const [stockInput, setStockInput] = useState({
+        name: '',
+        value: '',
+        amount: '',
+        uuid: '',
+        minAmount: '',
+        stockTypeId: ''
+    })
+
     // useFetch to retrieve stocktypes
     const { data: stockTypes, loading, error, updateState } = useFetch(stockGroupURL)
 
@@ -99,12 +114,14 @@ export const StockGroupList = () => {
     const insertStock = (e) => {
         e.preventDefault();
         const data = {
-            name: selectedStock.name,
-            value: selectedStock.value,
-            amount: selectedStock.amount,
+            name: stockInput.name,
+            value: stockInput.value,
+            amount: stockInput.amount,
+            minAmount: stockInput.minAmount,
+            stocktypeUuid: stockInput.stocktypeUuid
         }
-        axios.post(stockGroupURL, data).then((result) => {
-
+        axios.post(stockURL, data).then((result) => {
+            console.log(result)
         })
     }
     // used to insert new stocktype into the stocktype database.
@@ -116,13 +133,18 @@ export const StockGroupList = () => {
 
         })
     }
-    console.log(stockTypeInput)
+    console.log(stockInput)
 
     const onChangeStockType = (e) => {
         // e.persist();
         setStockTypeInput({ ...stockTypeInput, [e.target.name]: e.target.value })
     }
 
+
+    const onChangeStock = (e) => {
+        // e.persist();
+        setStockInput({ ...stockInput, [e.target.name]: e.target.value })
+    }
 
 
     if (loading) return <p>Loading</p>
@@ -146,7 +168,6 @@ export const StockGroupList = () => {
 
                 {stockTypes && stockTypes.map(item =>
                     <ButtonGrid>
-
                         <ButtonStyles
                             key={item.uuid}
                             onClick={() => setCurrentStock(item.stocks)}>{item.name}
@@ -156,45 +177,88 @@ export const StockGroupList = () => {
                         >X</ButtonStyles>
                     </ButtonGrid>
                 )}
-
             </StockTypeStyles>
+            <Middle>
+                <StockStyles>
+                    <Middle>
+                        {currentStock && currentStock.map(item =>
 
-            <StockStyles>
-                {currentStock && currentStock.map(item =>
-                    <ButtonStyles
-                        key={item.uuid}
-                        onClick={() =>
-                            setSelectedStock({
-                                ...selectedStock,
-                                name: item.name,
-                                amount: item.amount,
-                                value: item.value,
-                                uuid: item.uuid,
-                                minAmount: item.minAmount,
-                                note: item.note
-                            })}>
-                        {item.name}
-                    </ButtonStyles>)}
+                            <ButtonStyles
+                                key={item.uuid}
+                                onClick={() =>
+                                    setSelectedStock({
+                                        ...selectedStock,
+                                        name: item.name,
+                                        amount: item.amount,
+                                        value: item.value,
+                                        uuid: item.uuid,
+                                        minAmount: item.minAmount,
+                                        note: item.note
+                                    })}>
+                                {item.name}
+                            </ButtonStyles>)
+                        }
+                    </Middle>
+                    <SelectedStock>
+                        {selectedStock ?
+                            <FormStyles>
+                                <form>
+                                    <h3>Item: {selectedStock.name}</h3>
+                                    <p>Value: {selectedStock.value}</p>
+                                    <p>Amount Remaning: {selectedStock.amount} / {selectedStock.minAmount}</p>
 
-                <SelectedStock>
-                    {selectedStock ?
-                        <FormStyles>
-                            <form>
-                                <h3>Item: {selectedStock.name}</h3>
-                                <p>Value: {selectedStock.value}</p>
-                                <p>Amount Remaning: {selectedStock.amount} / {selectedStock.minAmount}</p>
+                                    <Input
+                                        type="text"
+                                        onChange={(e) => console.log(e.target.value)} />
+                                </form>
+                            </FormStyles>
+                            :
+                            <div></div>}
+                    </SelectedStock>
+                </StockStyles>
+            </Middle>
+            <form onSubmit={insertStock}>
+                <label>Name</label>
+                <input type="text"
+                    name="name"
+                    id="Name"
+                    placeholder="Name"
+                    value={stockInput.name}
+                    onChange={onChangeStock} />
 
-                                <Input
-                                    type="text"
-                                    onChange={(e) => console.log(e.target.value)} />
-                            </form>
-                        </FormStyles>
-                        :
-                        <div></div>}
-                </SelectedStock>
-            </StockStyles>
+                <input type="float"
+                    name="value"
+                    id="Value"
+                    placeholder="Value"
+                    value={stockInput.value}
+                    onChange={onChangeStock} />
 
-            <PDF />
+                <input type="text"
+                    name="amount"
+                    id="Amount"
+                    placeholder="Amount"
+                    value={stockInput.amount}
+                    onChange={onChangeStock} />
+
+                <input type="text"
+                    name="minAmount"
+                    id="MinAmount"
+                    placeholder="Minimum Amount"
+                    value={stockInput.minAmount}
+                    onChange={onChangeStock} />
+
+
+                {stockTypes && stockTypes.map(stocktype =>
+                    <div>
+                        <button onClick={() => {
+                            setStockInput({ ...stockInput, stocktypeUuid: stocktype.uuid })
+                        }}>{stocktype.name}</button>
+                    </div>)}
+
+                <button
+                    type="submit">Submit
+                    </button>
+            </form>
 
         </FlexDivisionStyles>
     )

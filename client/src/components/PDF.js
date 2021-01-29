@@ -3,32 +3,40 @@ import axios from 'axios';
 import { saveAs } from 'file-saver';
 import { useFetch } from './hooks/useFetch';
 
-
-
 export const PDF = () => {
     const stockGroupURL = 'http://localhost:3001/api/stocktypes'
 
     const { data: stockTypes, loading, error } = useFetch(stockGroupURL)
-
-
-
-
-
 
     const pdfUrl = 'http://localhost:3001/api/create-pdf'
     const getPdfURl = 'http://localhost:3001/api/fetch-pdf'
     const [form, setForm] = useState({
         name: '',
         ordernumber: 0,
+
         item1: {
             name: '',
             amount: 0,
             cost: 0
+        },
+        item2: {
+            name: '',
+            amount: 0,
+            cost: 0
+        },
+        item3: {
+            name: '',
+            amount: 0,
+            cost: 0
         }
-    })
+    }
+    )
 
 
 
+    const [stocks, setStocks] = useState([])
+
+    const [selectedStock, setSelectedStock] = useState({})
 
     const createAndDownloadPDF = () => {
 
@@ -39,36 +47,34 @@ export const PDF = () => {
                 saveAs(pdfBlob, 'newPdf.pdf');
             })
     }
-
-    console.log(form)
+    console.log(selectedStock && selectedStock)
     return (
         <div>
             {stockTypes && stockTypes.map(stocktype =>
                 <div>
-                    <button onClick={() => setForm({
-                        ...form,
-                        name: stocktype.name,
-
-                    })}>{stocktype.name}</button>
-                    <input
-                        type="number"
+                    <button onClick={() => setStocks(stocktype.stocks)}>{stocktype.name}</button>
+                </div>)}
+            {stocks && stocks.map(stock =>
+                <div>
+                    <h2>{stock.name}</h2>
+                    <input type="number"
                         placeholder='Number Required'
                         name='orderamount'
-                        onChange={(e) => { setForm({ ...form, item1: { amount: e.target.value, cost: e.target.value * stocktype.stocks[0].value, name: stocktype.stocks[0].name } }) }}
+                        onChange={(e) => {
+                            setSelectedStock(e.target.value)
+                        }}
                     ></input>
-
-                    <input type='number'
-                        placeholder="Order Number"
-                        name="ordernumber"
-                        onChange={(e) => setForm({ ...form, ordernumber: e.target.value })} />
                 </div>
-            )}
+            )
+            }
 
-
+            <input type='number'
+                placeholder="Order Number"
+                name="ordernumber"
+                onChange={(e) => setForm({ ...form, ordernumber: e.target.value })} />
             <button onClick={createAndDownloadPDF}>
                 Download PDF
             </button>
         </div >
-
     )
 }
