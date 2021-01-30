@@ -1,21 +1,32 @@
 const express = require("express");
 const cors = require('cors');
 const bodyParser = require('body-parser');
-
+const path = require('path');
 const { sequelize } = require("./models");
 const session = require("express-session");
 
-
+const PORT = process.env.PORT || 3001;
 // Sets up the Express App
 // =============================================================
 const app = express();
 app.use(express.json());
-const PORT = process.env.PORT || 3001;
-app.use(cors());
-// // Requiring our models for syncing
-if (process.env.NODE_ENV === "production") {
-    app.use(express.static("client/build"));
+
+const whitelist = ['http://localhost:3000', 'http://localhost:8080', '']
+const corsOptions = {
+    origin: function (origin, callback) {
+        console.log("** Origin of request " + origin)
+        if (whitelist.indexOf(origin) !== -1 || !origin) {
+            console.log("Origin acceptable")
+            callback(null, true)
+        } else {
+            console.log("Origin rejected")
+            callback(new Error('Not allowed by CORS'))
+        }
+    }
 }
+app.use(cors(corsOptions))
+// // Requiring our models for syncing
+
 
 // // Sets up the Express app to handle data parsing
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,7 +34,14 @@ app.use(bodyParser.json());
 // Requiring passport as we've configured it
 const passport = require("./config/passport");
 
-
+if (process.env.NODE_ENV === 'production') {
+    // Serve any static files
+    app.use(express.static(path.join(__dirname, 'client/build')));
+    // Handle React routing, return all requests to React app
+    app.get('*', function (req, res) {
+        res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+    });
+}
 
 // // Static directory
 // app.use(express.static("public"));

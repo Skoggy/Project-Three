@@ -4,12 +4,12 @@ import { saveAs } from 'file-saver';
 import { useFetch } from './hooks/useFetch';
 
 export const PDF = () => {
-    const stockGroupURL = 'http://localhost:3001/api/stocktypes'
+    const stockGroupURL = '/api/stocktypes'
 
     const { data: stockTypes, loading, error } = useFetch(stockGroupURL)
 
-    const pdfUrl = 'http://localhost:3001/api/create-pdf'
-    const getPdfURl = 'http://localhost:3001/api/fetch-pdf'
+    const pdfUrl = '/api/create-pdf'
+    const getPdfURl = '/api/fetch-pdf'
 
     const [form, setForm] = useState(null)
 

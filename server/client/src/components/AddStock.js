@@ -8,8 +8,8 @@ import { useUserContext } from '../utils/UserContext';
 
 export const AddStock = (props) => {
 
-    const stockURL = 'http://localhost:3001/api/stocks'
-    const stockGroupURL = 'http://localhost:3001/api/stocktypes'
+    const stockURL = '/api/stocks'
+    const stockGroupURL = '/api/stocktypes'
 
     const { data: stockTypes, loading, error, updateState } = useFetch(stockGroupURL)
     const { user, setUser } = useUserContext()

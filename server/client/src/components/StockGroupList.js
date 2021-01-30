@@ -84,7 +84,7 @@ max-height: 3rem;
 
 export const StockGroupList = () => {
     const { setUser, user } = useUserContext()
-    const stockGroupURL = 'http://localhost:3001/api/stocktypes'
+    const stockGroupURL = '/api/stocktypes'
 
     useEffect(() => {
         const loggedInUser = localStorage.getItem("user");

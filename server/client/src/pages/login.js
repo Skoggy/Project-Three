@@ -57,7 +57,7 @@ export const LoginPage = withRouter((props) => {
         if (email && password) {
             try {
                 const { data } = await axios.post(
-                    'http://localhost:3001/api/login',
+                    '/api/login',
                     {
                         email: email,
                         password: password
