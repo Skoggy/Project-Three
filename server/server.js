@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const path = require('path');
+
 const { sequelize } = require("./models");
 const session = require("express-session");
 
@@ -11,20 +11,7 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 app.use(express.json());
 
-const whitelist = ['http://localhost:3000', 'http://localhost:8080', '']
-const corsOptions = {
-    origin: function (origin, callback) {
-        console.log("** Origin of request " + origin)
-        if (whitelist.indexOf(origin) !== -1 || !origin) {
-            console.log("Origin acceptable")
-            callback(null, true)
-        } else {
-            console.log("Origin rejected")
-            callback(new Error('Not allowed by CORS'))
-        }
-    }
-}
-app.use(cors(corsOptions))
+app.use(cors());
 // // Requiring our models for syncing
 
 

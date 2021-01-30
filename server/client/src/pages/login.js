@@ -57,14 +57,15 @@ export const LoginPage = withRouter((props) => {
         if (email && password) {
             try {
                 const { data } = await axios.post(
-                    '/api/login',
+                    'http://localhost:3001/api/login',
                     {
                         email: email,
                         password: password
                     }
                 )
                 setUser(data)
-                localStorage.setItem('user', data)
+                localStorage.setItem('user', data.email)
+                localStorage.setItem('password', data.password)
                 props.history.push("/admin")
             } catch (e) {
                 console.log(e)

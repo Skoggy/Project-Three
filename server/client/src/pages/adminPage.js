@@ -1,9 +1,8 @@
-import { React } from 'react';
+import { React, useEffect } from 'react';
 import styled from 'styled-components';
-import { StockGroupList } from '../components/StockGroupList';
 
-import { LogoutButton } from '../components/LogoutButton'
-import { AddStock } from '../components/AddStock';
+import { StockGroupList } from '../components/StockGroupList';
+import { useUserContext } from '../utils/UserContext';
 
 
 
@@ -15,6 +14,17 @@ flex-direction:row;
 
 
 export const Admin = () => {
+
+    const { setUser, user } = useUserContext()
+
+    useEffect(() => {
+        const loggedInUser = localStorage.getItem("user")
+
+        if (loggedInUser) {
+            const user = (loggedInUser);
+            setUser(user);
+        }
+    }, []);
 
 
     return (

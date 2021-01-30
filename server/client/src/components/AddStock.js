@@ -6,12 +6,13 @@ import { useUserContext } from '../utils/UserContext';
 
 
 
-export const AddStock = (props) => {
+export const AddStock = ({ updateClick }) => {
 
-    const stockURL = '/api/stocks'
-    const stockGroupURL = '/api/stocktypes'
+    const stockURL = 'http://localhost:3001/api/stocks'
+    const stockGroupURL = 'http://localhost:3001/api/stocktypes'
 
     const { data: stockTypes, loading, error, updateState } = useFetch(stockGroupURL)
+
     const { user, setUser } = useUserContext()
 
     useEffect(() => {
@@ -33,6 +34,7 @@ export const AddStock = (props) => {
     // used to insert new stock into database.
     const insertStock = (e) => {
         e.preventDefault()
+        e.forceUpdate()
 
         const data = {
             name: stockInput.name,

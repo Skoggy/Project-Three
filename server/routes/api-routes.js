@@ -186,4 +186,20 @@ router.put('/stocks/:uuid', async (req, res) => {
     }
 })
 
+router.delete('/stocks/:uuid', async (req, res) => {
+    const uuid = req.params.uuid
+    try {
+        const stock = await Stock.findOne({
+            where: { uuid }
+        })
+
+        await stock.destroy()
+
+        return res.json({ message: "Stock provider removed." })
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({ err: 'Something went wrong' })
+    }
+})
+
 module.exports = router

@@ -5,7 +5,7 @@ import { useFetch } from './hooks/useFetch';
 import API from '../utils/API'
 import { AddStock } from './AddStock';
 import { PDF } from './PDF';
-import { useUserContext } from '../utils/UserContext';
+
 
 const FlexDivisionStyles = styled.div`
 display:flex;
@@ -65,6 +65,7 @@ const StockStyles = styled.div`
 display:flex;
 flex-flow:column;
 height:69vh;
+
 `
 const SelectedStock = styled.div`
 display:flex;
@@ -83,16 +84,9 @@ max-height: 3rem;
 `
 
 export const StockGroupList = () => {
-    const { setUser, user } = useUserContext()
-    const stockGroupURL = '/api/stocktypes'
 
-    useEffect(() => {
-        const loggedInUser = localStorage.getItem("user");
-        if (loggedInUser) {
-            const user = (loggedInUser);
-            setUser(user);
-        }
-    }, []);
+    const stockGroupURL = 'http://localhost:3001/api/stocktypes'
+
 
     // sets which stocks under which stocktype is selected
     const [currentStock, setCurrentStock] = useState([])
@@ -114,15 +108,19 @@ export const StockGroupList = () => {
     // useFetch to retrieve stocktypes
     const { data: stockTypes, loading, error, updateState } = useFetch(stockGroupURL)
 
-    const deleteStockType = (item) => {
+    const deleteStockType = (item, e) => {
         const uuid = item.uuid;
         API.delete(uuid).then((result) => {
-            const newArray = []
-            newArray.push(result)
-            console.log(newArray)
-
         })
     }
+
+    const deleteStock = (item, e) => {
+        const uuid = item.uuid;
+        API.deleteStock(uuid).then((result) => {
+        })
+    }
+
+
     // used to insert new stocktype into the stocktype database.
     const insertStockGroup = (e) => {
         e.preventDefault();
@@ -155,7 +153,7 @@ export const StockGroupList = () => {
                             onClick={() => setCurrentStock(item.stocks)}>{item.name}
                         </ButtonStyles>
                         <ButtonStyles
-                            onClick={() => deleteStockType(item)}
+                            onClick={(e) => deleteStockType(item, e)}
                         >X</ButtonStyles>
                     </ButtonGrid>
                 )}
@@ -163,21 +161,26 @@ export const StockGroupList = () => {
             <StockStyles>
                 <Middle>
                     {currentStock && currentStock.map(item =>
+                        <ButtonGrid>
+                            <ButtonStyles
+                                key={item.uuid}
+                                onClick={() =>
+                                    setSelectedStock({
+                                        ...selectedStock,
+                                        name: item.name,
+                                        amount: item.amount,
+                                        value: item.value,
+                                        uuid: item.uuid,
+                                        minAmount: item.minAmount,
+                                        note: item.note
+                                    })}>
+                                {item.name}
+                                <ButtonStyles
+                                    onClick={(e) => deleteStock(item, e)}
+                                >X</ButtonStyles>
+                            </ButtonStyles>
+                        </ButtonGrid>)
 
-                        <ButtonStyles
-                            key={item.uuid}
-                            onClick={() =>
-                                setSelectedStock({
-                                    ...selectedStock,
-                                    name: item.name,
-                                    amount: item.amount,
-                                    value: item.value,
-                                    uuid: item.uuid,
-                                    minAmount: item.minAmount,
-                                    note: item.note
-                                })}>
-                            {item.name}
-                        </ButtonStyles>)
                     }
                 </Middle>
                 <SelectedStock>

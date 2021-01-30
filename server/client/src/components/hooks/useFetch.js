@@ -20,9 +20,10 @@ export function useFetch(url) {
             }
         })()
     }, [url])
-
+    console.log(state)
     return {
         ...state, updateState: (item) => setState({ ...state, data: [...state.data, item] }),
+
 
     }
 }
