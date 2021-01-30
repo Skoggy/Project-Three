@@ -12,8 +12,8 @@ display:flex;
 flex-flow: row;
 width: 100vw;
 @media (max-width: 700px ) {
-    display:grid;
-    grid-template-rows: repeat(3, minmax(0, 1fr));
+    display:flex;
+    flex-flow:column;
     }
 `
 
@@ -84,9 +84,8 @@ max-height: 3rem;
 
 export const StockGroupList = () => {
     const { setUser, user } = useUserContext()
-
-
     const stockGroupURL = 'http://localhost:3001/api/stocktypes'
+
     useEffect(() => {
         const loggedInUser = localStorage.getItem("user");
         if (loggedInUser) {
@@ -112,19 +111,18 @@ export const StockGroupList = () => {
         minAmount: ''
     })
 
-
-
     // useFetch to retrieve stocktypes
     const { data: stockTypes, loading, error, updateState } = useFetch(stockGroupURL)
 
     const deleteStockType = (item) => {
         const uuid = item.uuid;
         API.delete(uuid).then((result) => {
+            const newArray = []
+            newArray.push(result)
+            console.log(newArray)
 
         })
     }
-
-
     // used to insert new stocktype into the stocktype database.
     const insertStockGroup = (e) => {
         e.preventDefault();
@@ -149,10 +147,7 @@ export const StockGroupList = () => {
     // else if (stockTypes.length === 0) <p>No results found</p>
     return (
         <FlexDivisionStyles>
-
             <StockTypeStyles>
-
-
                 {stockTypes && stockTypes.map(item =>
                     <ButtonGrid>
                         <ButtonStyles
@@ -165,7 +160,6 @@ export const StockGroupList = () => {
                     </ButtonGrid>
                 )}
             </StockTypeStyles>
-
             <StockStyles>
                 <Middle>
                     {currentStock && currentStock.map(item =>

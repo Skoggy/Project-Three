@@ -5,10 +5,8 @@ import styled from 'styled-components'
 import { useUserContext } from '../utils/UserContext';
 
 
-const Div = styled.div`
 
-`
-export const AddStock = () => {
+export const AddStock = (props) => {
 
     const stockURL = 'http://localhost:3001/api/stocks'
     const stockGroupURL = 'http://localhost:3001/api/stocktypes'
@@ -20,7 +18,7 @@ export const AddStock = () => {
         const loggedInUser = localStorage.getItem("user");
         if (loggedInUser) {
             const user = (loggedInUser);
-            setUser(user);
+            setUser({ user });
         }
     }, []);
 
@@ -45,8 +43,7 @@ export const AddStock = () => {
         }
         axios.post(stockURL, data).then((result) => {
 
-            console.log(result)
-            updateState(result.data)
+
         })
     }
     const setStockTypeNames = (e, stocktype) => {

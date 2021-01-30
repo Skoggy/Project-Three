@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const pdf = require('html-pdf');
+
 const { sequelize } = require("./models");
 const session = require("express-session");
 
@@ -13,7 +13,9 @@ app.use(express.json());
 const PORT = process.env.PORT || 3001;
 app.use(cors());
 // // Requiring our models for syncing
-
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static("client/build"));
+}
 
 // // Sets up the Express app to handle data parsing
 app.use(bodyParser.urlencoded({ extended: true }));

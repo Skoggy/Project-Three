@@ -22,6 +22,7 @@ export function useFetch(url) {
     }, [url])
 
     return {
-        ...state, updateState: (item) => setState({ ...state, data: [...state.data, item] })
+        ...state, updateState: (item) => setState({ ...state, data: [...state.data, item] }),
+
     }
 }

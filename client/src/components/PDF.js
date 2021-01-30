@@ -42,7 +42,7 @@ export const PDF = () => {
             {form ?
 
                 form.map(item =>
-                    <div>
+                    <div key={item.id}>
                         <label>
                             {item.name}</label>
                         <input
@@ -56,7 +56,7 @@ export const PDF = () => {
                 <div>
 
                     {stockTypes && stockTypes.map(stocktype =>
-                        <div>
+                        <div key={stocktype.id}>
                             <button onClick={() => setForm(stocktype.stocks)}>
                                 {stocktype.name}
                             </button>
