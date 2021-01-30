@@ -13,7 +13,7 @@ import { RegisterPage } from './pages/registerPage';
 import { Admin } from './pages/adminPage'
 import { takeItemPage } from './pages/takeItemPage'
 import styled from 'styled-components'
-import { pdfPage } from './pages/pdfPage'
+
 
 
 
@@ -55,7 +55,7 @@ function App() {
               <Route exact path='/takeitem' component={takeItemPage} />
               <Route exact path='/register' component={RegisterPage} />
               <Route exact path='/' component={frontPage} />
-              <Route exact path='/pdfpage' component={pdfPage} />
+
               <ProtectedRoute exact path='/admin' component={Admin} />
             </Switch>
           </Router>
