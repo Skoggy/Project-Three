@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-
+import bg from '../assets/images/background.jpg';
 
 const GlobalStyles = createGlobalStyle`
 
@@ -12,8 +12,17 @@ const GlobalStyles = createGlobalStyle`
     --darkRed: #2A0001;
 }
 
-
-
-
+ html {
+   
+    
+    background-attachment: fixed;
+    background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+    
+ }
 `
+
+
+
 export default GlobalStyles

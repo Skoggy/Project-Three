@@ -8,9 +8,7 @@ import { withRouter } from "react-router-dom"
 
 
 const Container = styled.div`
-
     display:flex;
-    
     justify-content: center;
     flex-direction:row;
     padding-top:2rem;
@@ -18,7 +16,7 @@ const Container = styled.div`
     /* height:68vh; */
     @media (max-width: 500px ) {
         margin-top: 8rem;
-        flex-direction:column
+        flex-direction:row;
     }
 `
 const OtherHalf = styled.div`
@@ -28,22 +26,24 @@ margin-left: 2rem;
 background-image: url(${bg});
 width:70vh;
   background-size: cover;
+  @media (max-width: 500px) {
+      display:none;
+  }
 `
 
 const InputStyles = styled.div`
- margin-top: 14rem;
-    align-items: center;
-    justify-content: center;
-.form {
-    display: flex;
-    flex-direction:column;
-    align-items: center;
-    justify-content: center;
+display:flex;
+ /* margin-top: 14rem; */
+width:70vh;
+flex-direction:column;
+border: 5px solid black;
+align-items: center; 
+justify-content: center;
+font-size:5rem;
+.input {
+    height:5rem;
 }
-.form input {
-margin: 10px;
-}
-`
+    `
 
 export const LoginPage = withRouter((props) => {
 
@@ -64,6 +64,7 @@ export const LoginPage = withRouter((props) => {
                     }
                 )
                 setUser(data)
+                localStorage.setItem('user', data)
                 props.history.push("/admin")
             } catch (e) {
                 console.log(e)
@@ -79,11 +80,12 @@ export const LoginPage = withRouter((props) => {
         <Container>
 
             <InputStyles>
+
                 <h1>Login</h1>
                 <input type="text" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-                {console.log(email)}
+
                 <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-                {console.log(password)}
+
                 <button onClick={handleFormSubmit}>Login</button>
                 <button onClick={() => window.location.href = '/register'}>Register New Admin</button>
             </InputStyles>

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { LogoutButton } from '../components/LogoutButton'
 
 const HeaderStyles = styled.div`
  
@@ -14,7 +15,9 @@ border-radius:8px;
 
 export default function Header() {
     return (
+
         <HeaderStyles>
+
             <div>
                 StockTake
         </div>

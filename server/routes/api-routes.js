@@ -49,7 +49,6 @@ router.post('/create-pdf', (req, res) => {
         if (err) {
             res.send(Promise.reject());
         }
-
         res.send(Promise.resolve());
     });
 })
@@ -57,9 +56,8 @@ router.post('/create-pdf', (req, res) => {
 
 // GET send PDF to client
 router.get('/fetch-pdf', (req, res) => {
-    res.sendFile(`${__dirname}/result.pdf`)
+    res.sendFile(`${__dirname}`)
 })
-
 
 
 router.post('/stocktypes', async (req, res) => {
@@ -184,7 +182,5 @@ router.put('/stocks/:uuid', async (req, res) => {
 
     }
 })
-
-
 
 module.exports = router

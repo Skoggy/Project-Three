@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import axios from 'axios';
 import { Card } from './Card';
 
-
 const Container = styled.div`
 max-height:70vh;
 display:grid;
@@ -78,6 +77,8 @@ export const TakeItem = () => {
         uuid: '',
         amount: ''
     })
+
+    const [noMatch, setNoMatch] = useState('')
     // fetches data from url
     const { data, loader, error, updateState } = useFetch(stockURL)
 
@@ -125,17 +126,17 @@ export const TakeItem = () => {
     // checks if there is a match.
     const checkMatch = (e) => {
         e.preventDefault()
+        setSearch({ ...search, result: {} })
+        setNoMatch('No Match Found')
         data.forEach(thing => {
+
             if (thing.name === search.search) {
                 setSearch({ ...search, result: thing })
                 setNote({ ...note, note: thing.note })
-
-
             }
         })
     }
     return (
-
         <div>
             <Container>
                 <FilloutStyles>
@@ -143,48 +144,35 @@ export const TakeItem = () => {
                         <input type="text" placeholder="Search" onChange={(e) => setSearch({ ...search, search: e.target.value })} />
                     </Hint>
                     <Button onClick={checkMatch}>Check</Button>
-
-                    <div>
-                        <Card
-                            title={search.result.name}
-                            // TODO: create a note leaving ability to allow people taking
-                            // to let the admin know any info about issues/damaged stock.
-                            body=''
-                            amount={search.result.amount - amounts.amount}
-                        />
-                        <input type="number"
-                            name="TakeStock"
-                            id="TakeStock"
-                            value={amounts.amount}
-                            onChange={onAmountChange} />
-                        <Button onClick={takeStock}>Take</Button>
+                    {Object.entries(search.result).length ?
                         <div>
+                            <Card
+                                title={search.result.name}
+                                body=''
+                                amount={search.result.amount - amounts.amount}
+                            />
+                            <input type="number"
+                                name="TakeStock"
+                                id="TakeStock"
+                                value={amounts.amount}
+                                onChange={onAmountChange} />
+                            <Button onClick={takeStock}>Take</Button>
+                            <div>
+                                <input type="text"
+                                    name='note'
+                                    id='note'
+                                    value={note.sendNote}
+                                    onChange={onNoteChange} />
+                                <Button onClick={addNote}>Add Note</Button>
 
-
-                            <input type="text"
-                                name='note'
-                                id='note'
-                                value={note.sendNote}
-                                onChange={onNoteChange} />
-                            <Button onClick={addNote}>Add Note</Button>
-
-                            <p>{note.note}</p>
-                        </div>
-                    </div >
-
-
+                                <p>{note.note}</p>
+                            </div>
+                        </div >
+                        :
+                        <div>{noMatch}</div>}
 
                 </FilloutStyles >
-                {/* 
-                <div>
-                    {note.note}
-                    <input type="text"
-                        name='note'
-                        id='note'
-                        value={note.sendNote}
-                        onChange={onNoteChange} />
-                    <Button onClick={addNote}>Add Note</Button>
-                </div> */}
+
             </Container>
         </div>
     )

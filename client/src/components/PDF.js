@@ -10,33 +10,9 @@ export const PDF = () => {
 
     const pdfUrl = 'http://localhost:3001/api/create-pdf'
     const getPdfURl = 'http://localhost:3001/api/fetch-pdf'
-    const [form, setForm] = useState({
-        name: '',
-        ordernumber: 0,
 
-        item1: {
-            name: '',
-            amount: 0,
-            cost: 0
-        },
-        item2: {
-            name: '',
-            amount: 0,
-            cost: 0
-        },
-        item3: {
-            name: '',
-            amount: 0,
-            cost: 0
-        }
-    }
-    )
+    const [form, setForm] = useState(null)
 
-
-
-    const [stocks, setStocks] = useState([])
-
-    const [selectedStock, setSelectedStock] = useState({})
 
     const createAndDownloadPDF = () => {
 
@@ -45,36 +21,56 @@ export const PDF = () => {
                 const pdfBlob = new Blob([res.data], { type: 'application/pdf' })
                 console.log(res)
                 saveAs(pdfBlob, 'newPdf.pdf');
+                setForm(null)
             })
     }
-    console.log(selectedStock && selectedStock)
+
+    const changeValue = (e, item) => {
+        const newAmount = parseInt(e.target.value);
+        const indexOfStock = form.findIndex((stock) => stock.id === item.id)
+        const slicedFormStart = form.slice(0, indexOfStock)
+        const updatedItem = { ...form[indexOfStock], amount: newAmount }
+        const slicedFormEnd = form.slice(indexOfStock + 1)
+        const newForm = [...slicedFormStart, updatedItem, ...slicedFormEnd]
+        setForm(newForm)
+    }
+
+
     return (
         <div>
-            {stockTypes && stockTypes.map(stocktype =>
+            <h1>Create a Stock Order Form</h1>
+            {form ?
+
+                form.map(item =>
+                    <div>
+                        <label>
+                            {item.name}</label>
+                        <input
+                            type='number'
+                            placeholder="Amount"
+                            onChange={(e) => changeValue(e, item)} />
+                    </div>
+                )
+
+                :
                 <div>
-                    <button onClick={() => setStocks(stocktype.stocks)}>{stocktype.name}</button>
-                </div>)}
-            {stocks && stocks.map(stock =>
-                <div>
-                    <h2>{stock.name}</h2>
-                    <input type="number"
-                        placeholder='Number Required'
-                        name='orderamount'
-                        onChange={(e) => {
-                            setSelectedStock(e.target.value)
-                        }}
-                    ></input>
+
+                    {stockTypes && stockTypes.map(stocktype =>
+                        <div>
+                            <button onClick={() => setForm(stocktype.stocks)}>
+                                {stocktype.name}
+                            </button>
+
+                        </div>
+                    )}
                 </div>
-            )
             }
 
-            <input type='number'
-                placeholder="Order Number"
-                name="ordernumber"
-                onChange={(e) => setForm({ ...form, ordernumber: e.target.value })} />
             <button onClick={createAndDownloadPDF}>
                 Download PDF
             </button>
+
         </div >
+
     )
 }

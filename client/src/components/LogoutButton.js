@@ -1,19 +1,16 @@
 import React from 'react';
-import axios from 'axios';
-
-export const LogoutButton = () => {
+import { withRouter } from "react-router-dom"
 
 
-    const logoutURL = 'http://localhost:3001/api/logout'
+export const LogoutButton = withRouter((props) => {
+
+
 
     const logout = (e) => {
         e.preventDefault();
-        axios.get(logoutURL)
-            .then(res => window.location.href = '/').catch(err => console.log(err))
-
+        props.history.push("/")
     }
-
     return (
         <button onClick={logout}>Logout</button>
     )
-}
+})

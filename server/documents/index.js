@@ -1,6 +1,6 @@
-module.exports = ({ name, ordernumber, item1, item2, item3, item4, item5, item6 }) => {
+module.exports = (form) => {
     const today = new Date();
-    return `
+    let PDF = `
     <!doctype html>
     <html>
        <head>
@@ -8,7 +8,7 @@ module.exports = ({ name, ordernumber, item1, item2, item3, item4, item5, item6 
           <title>PDF Result Template</title>
           <style>
              .invoice-box {
-             max-width: 800px;
+             max-width: 1000px;
              margin: auto;
              padding: 30px;
              border: 1px solid #eee;
@@ -100,39 +100,45 @@ module.exports = ({ name, ordernumber, item1, item2, item3, item4, item5, item6 
                       <table>
                          <tr>
                             <td>
-                               Customer Name: ${name}
+                               Customer Name: 
                             </td>
                             <td>
-                               Order Number: ${ordernumber}
+                               Order Number: ${Math.trunc(Math.random() * 1000)}
                             </td>
                          </tr>
                       </table>
                    </td>
-                </tr>
-                <tr class="heading">
-                   <td>Items:</td>
-                   <td>Price</td>
-                </tr>
-                <tr class="item">
-                   <td>${item1.name}:</td>
-                   <td>Amount:${item1.amount}</td>
-                   <td>Cost:${item1.cost}</td>
-                </tr>
-                <tr class="item">
-                <td>${item2.name}:</td>
-                <td>Amount:${item2.amount}</td>
-                <td>Cost:${item2.cost}</td>
-                </tr>
+                </tr> 
+<tr class="heading">
+                    <td>Items:</td>
+                    <td>Price</td>
+                 </tr>
+`
+    form.forEach(item => {
+        PDF = PDF.concat(
+            `
                  <tr class="item">
-                <td>${item3.name}:</td>
-                 <td>Amount:${item3.amount}</td>
-                <td>Cost:${item3.cost}</td>
+                    <td>${item.name}:</td>
+                    <td>Amount:${item.amount}</td>
+                    <td>Cost:${item.amount * item.value}</td>
                 </tr>
-             </table>
-             <br />
-             <h1 class="justify-center">Total price: ${parseInt(item1.cost) + parseInt(item2.cost) + parseInt(item3.cost)}$</h1>
-          </div>
-       </body>
-    </html>
-    `;
-};
+                    `)
+    })
+    PDF = PDF.concat(`
+                 </table>
+                 <br />
+                 <h1 class="justify-center">Total price: `)
+    let array = []
+    const arrSum = arr => arr.reduce((a, b) => a + b, 0)
+    form.forEach(item => {
+        array.push(item.amount * item.value)
+    })
+    const totalAmount = arrSum(array)
+    PDF = PDF.concat(`${totalAmount} $</h1>
+           </div>
+        </body>
+     </html>
+`)
+    return PDF
+
+}
