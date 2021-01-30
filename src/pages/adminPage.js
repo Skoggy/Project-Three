@@ -19,8 +19,6 @@ export const Admin = () => {
 
     return (
         <>
-
-
             <StockPageStyles>
                 <StockGroupList />
 
