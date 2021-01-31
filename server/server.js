@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require('cors');
 const bodyParser = require('body-parser');
-
+const path = require('path');
 const { sequelize } = require("./models");
 const session = require("express-session");
 
@@ -28,6 +28,7 @@ if (process.env.NODE_ENV === 'production') {
         res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
     });
 }
+
 
 // // Static directory
 // app.use(express.static("public"));
