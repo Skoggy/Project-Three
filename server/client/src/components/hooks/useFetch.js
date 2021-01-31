@@ -4,7 +4,7 @@ import axios from 'axios'
 export function useFetch(url) {
     const [state, setState] = useState({
         loading: false,
-        data: undefined,
+        data: [],
         error: undefined
     });
 
@@ -19,10 +19,12 @@ export function useFetch(url) {
                 setState({ loading: false, error: true, data: undefined })
             }
         })()
-    }, [url])
-    console.log(state)
+    }, [url, axios])
+    // console.log(state.data)
     return {
-        ...state, updateState: (item) => setState({ ...state, data: [...state.data, item] }),
+        ...state,
+        updateState: (item) => setState({ ...state, data: [...state.data, item] }),
+        removeItem: (uuid) => setState({ ...state, data: [...state.data.filter(i => i.uuid !== uuid)] })
 
 
     }

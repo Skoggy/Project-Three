@@ -1,30 +1,50 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
-import { useFetch } from './hooks/useFetch';
+
+import styled from 'styled-components';
+
+
+const All = styled.div`
+min-height:33vh;
+`
+
+const ButtonGrid = styled.div`
+ display:grid;
+grid-template-columns: 8fr 1fr; 
+
+`
+const InputGrid = styled.div`
+ display:grid;
+ grid-template-columns: 1fr 1fr 1fr;
+`
+
 
 export const PDF = () => {
-    const stockGroupURL = '/api/stocktypes'
+    const [stockTypes, setStocktypes] = useState(undefined)
+    const stockGroupURL = 'http://localhost:3001/api/stocktypes'
 
-    const { data: stockTypes, loading, error } = useFetch(stockGroupURL)
+    const fetchList = () => {
+        axios.get(stockGroupURL).then(result => {
+            setStocktypes(result.data)
+        }
+        )
+    }
 
     const pdfUrl = 'http://localhost:3001/api/create-pdf'
     const getPdfURl = 'http://localhost:3001/api/fetch-pdf'
-
     const [form, setForm] = useState(null)
 
-
     const createAndDownloadPDF = () => {
-
         axios.post(pdfUrl, form).then(() => axios.get(getPdfURl, { responseType: 'blob' }))
             .then((res) => {
                 const pdfBlob = new Blob([res.data], { type: 'application/pdf' })
                 console.log(res)
                 saveAs(pdfBlob, 'newPdf.pdf');
                 setForm(null)
+                setStocktypes(null)
             })
     }
-
     const changeValue = (e, item) => {
         const newAmount = parseInt(e.target.value);
         const indexOfStock = form.findIndex((stock) => stock.id === item.id)
@@ -34,43 +54,52 @@ export const PDF = () => {
         const newForm = [...slicedFormStart, updatedItem, ...slicedFormEnd]
         setForm(newForm)
     }
-
-
     return (
-        <div>
+        <All>
             <h1>Create a Stock Order Form</h1>
             {form ?
-
                 form.map(item =>
                     <div key={item.id}>
                         <label>
                             {item.name}</label>
-                        <input
-                            type='number'
-                            placeholder="Amount"
-                            onChange={(e) => changeValue(e, item)} />
+                        <InputGrid>
+                            <input
+                                type='number'
+                                placeholder="Amount"
+                                onChange={(e) => changeValue(e, item)} />
+                        </InputGrid>
                     </div>
                 )
-
                 :
                 <div>
-
                     {stockTypes && stockTypes.map(stocktype =>
-                        <div key={stocktype.id}>
+                        <ButtonGrid key={stocktype.id}>
                             <button onClick={() => setForm(stocktype.stocks)}>
                                 {stocktype.name}
                             </button>
 
-                        </div>
+                        </ButtonGrid>
                     )}
                 </div>
             }
+            {form ?
+                <div>
+                    <button onClick={createAndDownloadPDF}>
+                        Download PDF
+                        </button>
+                    <button onClick={() => setForm(null)}>Cancel</button>
+                </div>
+                :
+                <div></div>
+            }
+            {stockTypes ?
 
-            <button onClick={createAndDownloadPDF}>
-                Download PDF
-            </button>
+                <button onClick={() => setStocktypes(null)}>Cancel</button>
+                :
+                <button onClick={fetchList}>List</button>
+            }
 
-        </div >
+        </All >
 
     )
 }

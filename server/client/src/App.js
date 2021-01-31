@@ -55,7 +55,6 @@ function App() {
               <Route exact path='/takeitem' component={takeItemPage} />
               <Route exact path='/register' component={RegisterPage} />
               <Route exact path='/' component={frontPage} />
-
               <ProtectedRoute exact path='/admin' component={Admin} />
             </Switch>
           </Router>

@@ -33,7 +33,6 @@ router.post("/signup", async (req, res) => {
     }
 })
 
-
 // Route for logging user out
 router.get("/logout", function (req, res) {
     console.log('hey')

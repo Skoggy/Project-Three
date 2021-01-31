@@ -17,7 +17,6 @@ export default function Header() {
     return (
 
         <HeaderStyles>
-
             <div>
                 StockTake
         </div>

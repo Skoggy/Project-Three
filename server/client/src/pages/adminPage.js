@@ -3,7 +3,8 @@ import styled from 'styled-components';
 
 import { StockGroupList } from '../components/StockGroupList';
 import { useUserContext } from '../utils/UserContext';
-
+import axios from 'axios';
+import { LogoutButton } from '../components/LogoutButton';
 
 
 const StockPageStyles = styled.div`
@@ -15,23 +16,11 @@ flex-direction:row;
 
 export const Admin = () => {
 
-    const { setUser, user } = useUserContext()
-
-    useEffect(() => {
-        const loggedInUser = localStorage.getItem("user")
-
-        if (loggedInUser) {
-            const user = (loggedInUser);
-            setUser(user);
-        }
-    }, []);
-
-
     return (
         <>
+            <LogoutButton />
             <StockPageStyles>
                 <StockGroupList />
-
             </StockPageStyles>
 
         </>
