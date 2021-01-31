@@ -116,8 +116,8 @@ margin-left: 1rem;
 `
 
 export const StockGroupList = () => {
-
-    const stockGroupURL = 'http://localhost:3001/api/stocktypes'
+    const stockURL = '/api/stocks'
+    const stockGroupURL = '/api/stocktypes'
 
 
     // sets which stocks under which stocktype is selected
@@ -168,7 +168,7 @@ export const StockGroupList = () => {
         setStockTypeInput({ ...stockTypeInput, [e.target.name]: e.target.value })
     }
 
-    const stockURL = 'http://localhost:3001/api/stocks'
+
 
     // gets all of the updated stocks and populates the stock list
     const putCurrentStock = (e, item) => {

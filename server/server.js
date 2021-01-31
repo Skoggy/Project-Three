@@ -43,7 +43,7 @@ app.get("*", function (req, res) {
 
 app.listen(PORT, async () => {
     console.log(`Server up on PORT ${PORT}`);
-    await sequelize.authenticate();
+    await sequelize.sync();
     console.log('Database Connected');
 })
 
