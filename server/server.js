@@ -24,9 +24,7 @@ const passport = require("./config/passport");
 if (process.env.NODE_ENV === 'production') {
 
     // Handle React routing, return all requests to React app
-    app.get('*', function (req, res) {
-        res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-    });
+    app.use(express.static(__dirname + '/client/build'));
 }
 
 
