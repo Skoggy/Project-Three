@@ -20,6 +20,7 @@
     "sequelize": "^6.5.0",
     "sequelize-cli": "^6.2.0"
   },
+  "proxy": "http://localhost:3001",
   "devDependencies": {},
   "scripts": {
     "heroku-postbuild": "cd client && npm install && npm install && npm run build",
