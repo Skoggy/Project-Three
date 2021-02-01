@@ -55,7 +55,7 @@ router.post('/create-pdf', (req, res) => {
 
 // GET send PDF to client
 router.get('/fetch-pdf', (req, res) => {
-    res.sendFile(`${__dirname}`)
+    res.sendFile(`${__dirname}/result.pdf`)
 })
 
 // CREATE new Stocktype / provider
