@@ -2,8 +2,7 @@ import { React, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { StockGroupList } from '../components/StockGroupList';
-import { useUserContext } from '../utils/UserContext';
-import axios from 'axios';
+
 import { LogoutButton } from '../components/LogoutButton';
 
 
