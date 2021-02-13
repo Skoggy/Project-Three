@@ -6,7 +6,7 @@
   ## Description
   Easy to use inventory management system that allows stock to be taken in real time to allow for constant access to stock levels so that there is always enough there to get the job done.
 
-  <img src=".Assets/main.png" alt="Main page">
+  <img src="./Assets/main.png" alt="Main page">
 
   ## Table of Contents
   1. [Installation](#Installation)
@@ -22,9 +22,9 @@
   ## Usage Information
   An admin account needs to be created and then with that all of the stock providers and stocks can be created and updated. Then the workers on the floor can select what is being taken and how much and the admin can then keep an eye on the stock levels and generate order forms right from the dashboard as well.
 
-  <img src=".Assets/admin.png" alt="admin dashboard">
+  <img src="./Assets/admin.png" alt="admin dashboard">
 
- <img src=".Assets/take.png" alt="Take page">
+ <img src="./Assets/take.png" alt="Take page">
 
   ## Contributing Guidelines
   Anyone can make suggestions to this project, contact me through email.
