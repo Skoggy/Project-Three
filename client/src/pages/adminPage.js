@@ -1,26 +1,16 @@
-import { React, useEffect } from 'react';
-import styled from 'styled-components';
+import { React } from 'react';
 
 import { StockGroupList } from '../components/StockGroupList';
-
-import { LogoutButton } from '../components/LogoutButton';
-
-
-const StockPageStyles = styled.div`
-display: flex;
-flex-direction:row;
-
-`
 
 
 export const Admin = () => {
 
     return (
         <>
-            <LogoutButton />
-            <StockPageStyles>
+
+            <div>
                 <StockGroupList />
-            </StockPageStyles>
+            </div>
 
         </>
     )
