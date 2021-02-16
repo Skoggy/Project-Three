@@ -22,16 +22,12 @@ const Button = styled.button`
 
 	padding: 10px 40px;
     margin: 0px 10px 10px 0px;
- 
 	border-radius: 10px;
-	
 	font-size: 25px;
 	color: #FFF;
-	text-decoration: none;	
-
+	text-decoration: none;
 	transition: all 0.1s;
     -webkit-transition: all 0.1s;
-
     background-color: var(--red);
 	border-bottom: 5px solid var(--darkRed);
     text-shadow: 0px -2px var(--darkRed);
@@ -59,8 +55,8 @@ input[type="number"] {
 `
 
 export const TakeItem = () => {
-    const stockURL = '/api/stocks'
-    const noteUrl = '/api/stocknote'
+    const stockURL = 'http://localhost:3001/api/stocks'
+    const noteUrl = 'http://localhost:3001/api/stocknote'
     // search and the matching result
     const [search, setSearch] = useState({
         result: {},
