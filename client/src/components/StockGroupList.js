@@ -5,115 +5,33 @@ import { useFetch } from './hooks/useFetch';
 import API from '../utils/API'
 import { PDF } from './PDF';
 
-
-const FlexDivisionStyles = styled.div`
-display:flex;
-flex-flow: row;
-width: 100vw;
-margin: 1rem;
-border: 1px solid black;
-@media (max-width: 700px ) {
-    display:flex;
-    flex-flow:column;
-    height: 50vh;
-    }
-
+const WrapperStyles = styled.div`
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+grid-gap:10px;
+border: 2px solid black;
 `
-const AddStockDiv = styled.div`
-width: 33vw;
-display:flex; 
-flex-flow: column;
-justify-content:space-around;
-border-left: 1px solid black;
-margin-right: 1rem;
-height: 50vh;
-margin-top: 10rem;
-.top {
-    flex: 0 1 auto;
-}
-.middle {
-    flex: 1 1 auto;
-}
-.bottom {
-    flex: 0 1 auto;
+
+const StockTypeDivStyles = styled.div`
+margin-top: 20px;
+
+max-height: 100%;
+border: 2px solid black;
+
+button {
+    height: 50px;  
 }
 `
-const FormStyles = styled.div`
-justify-items:center;
-    h3 {
-        font-size:2rem;
-    }
-    h4 {
-        font-size: 1.5rem;
 
-    }
-    p {
-        font-size: 1.0rem;
-    }
-`
-const ButtonGrid = styled.div`
+const StockDivStyles = styled.div`
 display:grid;
-grid-template-columns: 8fr 1fr;
-`
-const StockTypeStyles = styled.div`
-display:flex;
-flex-flow: column;
-width: 33vw;
-padding-right: 10px;
-overflow:auto;
-border-right: 1px solid black;
-`
-const Middle = styled.div`
-display:flex;
-flex-flow:column;
-min-height:50vh;
-max-height:50vh;
-width: 32vw;
-`
-const StockStyles = styled.div`
-display:flex;
-flex-flow:column;
-height:69vh;
-overflow:auto;
-`
-const SelectedStock = styled.div`
-display:flex;
-flex-flow: column;
-max-height:30vh;
-width: 31vw;
-align-self:flex-end;
-`
-const ButtonStyles = styled.button`
-background-color:var(--lightGrey);
-border-color:var(--lightGrey);
-font-size:1.5rem;
-min-height: 3rem;
-max-height: 3rem;
-`
-const AddStockForm = styled.div`
-font-size: 1.33rem;
-display:flex;
-flex-flow:column;
-justify-content:space-around;
-max-height:50vh;
-margin-left: 1rem;
-
-input {
-    width:11rem;
-}
-
-`
-const SubmitButton = styled.button`
-width: 33vh;
-height: 2rem;
-margin-left: 7.5rem;
 `
 
-const AddStockGrid = styled.div`
-display:grid;
-grid-template-columns:  1fr;
-margin-left: 1rem;
+const ButtonGridDivStyles = styled.div`
+display: grid;
+grid-template-columns: 10fr 1fr;
 `
+
 
 export const StockGroupList = () => {
     const stockURL = '/api/stocks'
@@ -221,25 +139,25 @@ export const StockGroupList = () => {
     else if (error) return <p>Error</p>
     // else if (stockTypes.length === 0) <p>No results found</p>
     return (
-        <FlexDivisionStyles>
-            <StockTypeStyles>
+        <WrapperStyles>
+            <StockTypeDivStyles>
                 {stockTypes && stockTypes.map(item =>
-                    <ButtonGrid>
-                        <ButtonStyles
-                            key={item.uuid}
+                    <ButtonGridDivStyles key={item.uuid}>
+                        <button
+
                             onClick={(e) => (putCurrentStock(e, item))}>{item.name}
-                        </ButtonStyles>
-                        <ButtonStyles
+                        </button>
+                        <button
                             onClick={(e) => deleteStockType(item, e)}
-                        >X</ButtonStyles>
-                    </ButtonGrid>
+                        >X</button>
+                    </ButtonGridDivStyles>
                 )}
-            </StockTypeStyles>
-            <StockStyles>
-                <Middle>
+            </StockTypeDivStyles>
+            <StockDivStyles>
+                <div>
                     {currentStock && currentStock.map(item =>
-                        <ButtonGrid key={item.uuid}>
-                            <ButtonStyles
+                        <ButtonGridDivStyles key={item.uuid}>
+                            <button
                                 onClick={() =>
                                     setSelectedStock({
                                         ...selectedStock,
@@ -251,92 +169,93 @@ export const StockGroupList = () => {
                                         note: item.note
                                     })}>
                                 {item.name}
-                            </ButtonStyles>
-                            <ButtonStyles
+                            </button>
+                            <button
                                 onClick={() => deleteStock(item)}
-                            >X</ButtonStyles>
-                        </ButtonGrid>)
+                            >X</button>
+                        </ButtonGridDivStyles>)
                     }
-                </Middle>
-                <SelectedStock>
+                </div>
+                <div>
                     {selectedStock ?
-                        <FormStyles>
-                            <form>
-                                <h3>Item: {selectedStock.name}</h3>
-                                <h4>Value: {selectedStock.value}</h4>
-                                <h4>Amount Remaning: {selectedStock.amount} / {selectedStock.minAmount}</h4>
-                                <p>Notes: {selectedStock.note}</p>
-                            </form>
-                        </FormStyles>
+
+                        <div>
+                            <h3>Item: {selectedStock.name}</h3>
+                            <h4>Value: {selectedStock.value}</h4>
+                            <h4>Amount Remaning: {selectedStock.amount} / {selectedStock.minAmount}</h4>
+                            <p>Notes: {selectedStock.note}</p>
+                        </div>
+
                         :
                         <div></div>}
-                </SelectedStock>
-            </StockStyles>
-            <AddStockDiv>
-                <div className="top">
-                    <h1>Create a New Stock Provider</h1>
-                    <form onSubmit={insertStockGroup}>
+                </div>
+            </StockDivStyles>
+            <div>
+
+                <h1>Create a New Stock Provider</h1>
+                <form onSubmit={insertStockGroup}>
+                    <label>Name</label>
+                    <input type="text"
+                        name="name"
+                        id="Name"
+                        placeholder="Name"
+                        value={stockTypeInput.name}
+                        onChange={onChangeStockType} />
+                    <button
+                        type="submit">Submit
+                    </button>
+                </form>
+
+
+                <form>
+
+                    <h1>Add a New Stock</h1>
+                    <div>
                         <label>Name</label>
                         <input type="text"
                             name="name"
                             id="Name"
                             placeholder="Name"
-                            value={stockTypeInput.name}
-                            onChange={onChangeStockType} />
-                        <button
-                            type="submit">Submit
-                    </button>
-                    </form>
-                </div>
-                <div className='middle'>
-                    <AddStockForm>
+                            value={stockInput.name}
+                            onChange={onChangeStock} />
+                        <label>Value</label>
+                        <input type="float"
+                            name="value"
+                            id="Value"
+                            placeholder="Value"
+                            value={stockInput.value}
+                            onChange={onChangeStock} />
+                        <label>Amount</label>
+                        <input type="text"
+                            name="amount"
+                            id="Amount"
+                            placeholder="Amount"
+                            value={stockInput.amount}
+                            onChange={onChangeStock} />
+                        <label>Min Amount</label>
+                        <input type="text"
+                            name="minAmount"
+                            id="MinAmount"
+                            placeholder="Minimum Amount"
+                            value={stockInput.minAmount}
+                            onChange={onChangeStock} />
+                        <div>
+                            {stockTypes.map(stocktype =>
+                                <ButtonGridDivStyles key={stocktype.id}>
+                                    <button id={stocktype.id} onClick={(e) => { setStockTypeNames(e, stocktype) }}>{stocktype.name}</button>
+                                </ButtonGridDivStyles>
+                            )}
+                            <button type="submit" onClick={(e) => insertStock(e)}>Submit</button>
+                        </div>
+                    </div>
+                </form >
+                <PDF />
+            </div>
 
-                        <h1>Add a New Stock</h1>
-                        <AddStockGrid>
-                            <label>Name</label>
-                            <input type="text"
-                                name="name"
-                                id="Name"
-                                placeholder="Name"
-                                value={stockInput.name}
-                                onChange={onChangeStock} />
-                            <label>Value</label>
-                            <input type="float"
-                                name="value"
-                                id="Value"
-                                placeholder="Value"
-                                value={stockInput.value}
-                                onChange={onChangeStock} />
-                            <label>Amount</label>
-                            <input type="text"
-                                name="amount"
-                                id="Amount"
-                                placeholder="Amount"
-                                value={stockInput.amount}
-                                onChange={onChangeStock} />
-                            <label>Min Amount</label>
-                            <input type="text"
-                                name="minAmount"
-                                id="MinAmount"
-                                placeholder="Minimum Amount"
-                                value={stockInput.minAmount}
-                                onChange={onChangeStock} />
-                            <div>
-                                {stockTypes.map(stocktype =>
-                                    <ButtonGrid>
-                                        <button id={stocktype.id} onClick={(e) => { setStockTypeNames(e, stocktype) }}>{stocktype.name}</button>
-                                    </ButtonGrid>
-                                )}
-                                <SubmitButton type="submit" onClick={(e) => insertStock(e)}>Submit</SubmitButton>
-                            </div>
-                        </AddStockGrid>
-                    </AddStockForm >
-                </div>
-                <div className='bottom'>
-                    <PDF />
-                </div>
-            </AddStockDiv>
-        </FlexDivisionStyles>
+
+
+        </WrapperStyles>
+
     )
 }
 
