@@ -44,11 +44,12 @@ function App() {
       <UserProvider>
         <GlobalStyles />
         <Typography />
-        <div className="header">
-          <Header />
-        </div>
-        <div className="content">
-          <Router>
+        <Router>
+          <div className="header">
+            <Header />
+          </div>
+          <div className="content">
+
             <Switch>
               <Route exact path='/login' component={LoginPage} />
               <Route exact path='/stocktype' component={SelectStockPage} />
@@ -57,8 +58,9 @@ function App() {
               <Route exact path='/' component={frontPage} />
               <ProtectedRoute exact path='/admin' component={Admin} />
             </Switch>
-          </Router>
-        </div>
+
+          </div>
+        </Router>
         <div className="footer">
           <Footer />
         </div>
