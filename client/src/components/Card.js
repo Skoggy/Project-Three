@@ -8,7 +8,7 @@ export const Card = ({ title, body, amount }) => {
                 <h2>{title}</h2>
             </div>
             <div>{body}</div>
-            <div>{amount}</div>
+            <p>{amount}</p>
         </div>
     )
 }

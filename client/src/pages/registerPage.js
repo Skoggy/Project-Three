@@ -56,7 +56,7 @@ export const RegisterPage = withRouter((props) => {
         if (email && password) {
             try {
                 const { data } = await axios.post(
-                    'h/api/signup',
+                    '/api/signup',
                     {
                         email: email,
                         password: password

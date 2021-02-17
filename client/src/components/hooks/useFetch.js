@@ -20,7 +20,6 @@ export function useFetch(url) {
             }
         })()
     }, [url, axios])
-    // console.log(state.data)
     return {
         ...state,
         updateState: (item) => setState({ ...state, data: [...state.data, item] }),
