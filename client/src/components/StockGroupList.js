@@ -10,39 +10,13 @@ display: grid;
 grid-template-columns: repeat(3, 1fr);
 grid-gap:10px;
 border: 2px solid black;
-
 `
-
 const StockTypeDivStyles = styled.div`
 margin-top: 20px;
 max-height: 100vh;
 overflow:auto;
 border: 2px solid black;
-
-
-button {
-    height: 50px; 
-    background-color: #EEEEEE;
-    border: 0.5px solid #E5E5E5;
-    outline:none;
-    box-shadow: 0 0 4px  rgba(0,0,0,0.1);
-    font-size:30px;
-    transition-duration: 0.4s;
-}
-
-button:hover {
-    border: 2px solid black;
-}
-
-button:active {
-    background-color:#bdbdbd;
-}
-
-button:focus {
-    background-color:#bdbdbd;
-}
 `
-
 
 const StockDivStyles = styled.div`
 display: grid;
@@ -50,35 +24,13 @@ grid-template-rows: 3fr 1fr;
 margin-top: 20px;
 border: 2px solid black;
 
-button {
-    height: 50px; 
-    background-color: #EEEEEE;
-    border: 0.5px solid #E5E5E5;
-    outline:none;
-    box-shadow: 0 0 4px #888888;
-    font-size: 30px;
-    transition-duration: 0.4s;
-}
-
-button:hover {
-    border: 2px solid black;
-}
-
-button:active {
-    background-color:#bdbdbd;
-}
-
-button:focus {
-    background-color:#bdbdbd;
-}
 `
 
 const SelectedStockDiv = styled.div`
 display:grid;
- 
+
 font-size: 20px;
 border: 1px solid black;
-
 margin: 5px;
 box-shadow: 1px 1px 1px #888888;
 `
@@ -88,15 +40,13 @@ display: grid;
 grid-template-columns: 10fr 1fr;
 `
 
-
-
-
 const RightSideDivStyles = styled.div`
 display:grid;
 grid-template-rows: repeat(3 1fr);
 grid-gap:30px;
 margin-top: 20px;
 border: 1px solid black;
+padding: 10px;
 `
 
 const AddNewStockInputStyles = styled.div`
@@ -106,8 +56,27 @@ margin-right: 20px;
 margin-bottom: 20px;
 `
 
+const ButtonStyles = styled.button`
+   height: 50px; 
+    background-color: #EEEEEE;
+    border: 0.5px solid #E5E5E5;
+    outline:none;
+    box-shadow: 0 0 1px rgba(0,0,0,0.1);
+    font-size:30px;
+    transition-duration: 0.4s;
 
+:hover {
+    border: 2px solid black;
+}
 
+:active {
+    background-color:#bdbdbd;
+}
+
+:focus {
+    background-color:#bdbdbd;
+}
+`
 
 export const StockGroupList = () => {
     const stockURL = '/api/stocks'
@@ -130,6 +99,9 @@ export const StockGroupList = () => {
         uuid: '',
         minAmount: ''
     })
+
+    const [addStockButton, setAddStockButton] = useState(false)
+    const [addStockTypeButton, setAddStockTypeButton] = useState(false)
 
     // useFetch to retrieve stocktypes
     const { data: stockTypes, loading, error, updateState, removeItem } = useFetch(stockGroupURL)
@@ -160,7 +132,6 @@ export const StockGroupList = () => {
         // e.persist();
         setStockTypeInput({ ...stockTypeInput, [e.target.name]: e.target.value })
     }
-
 
 
     // gets all of the updated stocks and populates the stock list
@@ -205,10 +176,29 @@ export const StockGroupList = () => {
 
 
     const onChangeStock = (e) => {
-        // e.persist();
+
         setStockInput({ ...stockInput, [e.target.name]: e.target.value })
     }
 
+    const displayStock = (e) => {
+        e.preventDefault();
+        setAddStockTypeButton(true);
+        const el = document.getElementById('pdfvisible')
+        el.style.visibility = 'none'
+
+    }
+
+    const cancelDisplayStock = async (e) => {
+        e.preventDefault();
+        try {
+            await setAddStockTypeButton(false)
+        }
+        finally {
+            const el = document.getElementById('pdfvisible')
+            console.log(el)
+            el.style.visibility = 'visible'
+        }
+    }
 
     if (loading) return <p>Loading</p>
     else if (error) return <p>Error</p>
@@ -218,13 +208,12 @@ export const StockGroupList = () => {
             <StockTypeDivStyles>
                 {stockTypes && stockTypes.map(item =>
                     <ButtonGridDivStyles key={item.uuid}>
-                        <button
-
+                        <ButtonStyles
                             onClick={(e) => (putCurrentStock(e, item))}>{item.name}
-                        </button>
-                        <button
+                        </ButtonStyles>
+                        <ButtonStyles
                             onClick={(e) => deleteStockType(item, e)}
-                        >X</button>
+                        >X</ButtonStyles>
                     </ButtonGridDivStyles>
                 )}
             </StockTypeDivStyles>
@@ -232,7 +221,7 @@ export const StockGroupList = () => {
                 <div>
                     {currentStock && currentStock.map(item =>
                         <ButtonGridDivStyles key={item.uuid}>
-                            <button
+                            <ButtonStyles
                                 onClick={() =>
                                     setSelectedStock({
                                         ...selectedStock,
@@ -244,10 +233,10 @@ export const StockGroupList = () => {
                                         note: item.note
                                     })}>
                                 {item.name}
-                            </button>
-                            <button
+                            </ButtonStyles>
+                            <ButtonStyles
                                 onClick={() => deleteStock(item)}
-                            >X</button>
+                            >X</ButtonStyles>
                         </ButtonGridDivStyles>)
                     }
                 </div>
@@ -265,70 +254,99 @@ export const StockGroupList = () => {
             </StockDivStyles>
             <RightSideDivStyles>
                 <div>
-                    <h1>Create a New Stock Provider</h1>
-                    <form onSubmit={insertStockGroup}>
-                        <label>Name</label>
-                        <input type="text"
-                            name="name"
-                            id="Name"
-                            placeholder="Name"
-                            value={stockTypeInput.name}
-                            onChange={onChangeStockType} />
-                        <button
-                            type="submit">Submit
-                    </button>
-
-                    </form>
-                </div>
-                <div>
-                    <h1>Add a New Stock</h1>
-                    <form>
-                        <AddNewStockInputStyles>
-                            <label>Name</label>
-                            <input type="text"
-                                name="name"
-                                id="Name"
-                                placeholder="Name"
-                                value={stockInput.name}
-                                onChange={onChangeStock} />
-                            <label>Value</label>
-                            <input type="float"
-                                name="value"
-                                id="Value"
-                                placeholder="Value"
-                                value={stockInput.value}
-                                onChange={onChangeStock} />
-                            <label>Amount</label>
-                            <input type="text"
-                                name="amount"
-                                id="Amount"
-                                placeholder="Amount"
-                                value={stockInput.amount}
-                                onChange={onChangeStock} />
-                            <label>Min Amount</label>
-                            <input type="text"
-                                name="minAmount"
-                                id="MinAmount"
-                                placeholder="Minimum Amount"
-                                value={stockInput.minAmount}
-                                onChange={onChangeStock} />
-                        </AddNewStockInputStyles>
+                    {addStockButton === false && addStockTypeButton === false
+                        ?
                         <div>
-
-                            {stockTypes.map(stocktype =>
-                                <ButtonGridDivStyles key={stocktype.id}>
-                                    <button id={stocktype.id} onClick={(e) => { setStockTypeNames(e, stocktype) }}>{stocktype.name}</button>
-                                </ButtonGridDivStyles>
-                            )}
-                            <button type="submit" onClick={(e) => insertStock(e)}>Submit</button>
+                            <ButtonStyles onClick={(e) => displayStock(e)}>
+                                Create a New Stock Provider</ButtonStyles>
                         </div>
-
-                    </form >
+                        :
+                        <div></div>}
+                    {addStockButton === false && addStockTypeButton === false
+                        ?
+                        <ButtonStyles ButtonStyles onClick={() => setAddStockButton(true)}>Add Stock</ButtonStyles>
+                        :
+                        <div></div>
+                    }
+                    {addStockTypeButton === true
+                        ?
+                        <div>
+                            <form onSubmit={insertStockGroup}>
+                                <label>Name</label>
+                                <input type="text"
+                                    name="name"
+                                    id="Name"
+                                    placeholder="Name"
+                                    value={stockTypeInput.name}
+                                    onChange={onChangeStockType} />
+                                <ButtonStyles
+                                    type="submit">Submit
+                    </ButtonStyles>
+                                <ButtonStyles onClick={(e) => cancelDisplayStock(e)}>Cancel</ButtonStyles>
+                            </form>
+                        </div>
+                        :
+                        <div></div>}
+                    <div>
+                        {addStockButton === true ?
+                            <div>
+                                <h1>Add a New Stock</h1>
+                                <form>
+                                    <AddNewStockInputStyles>
+                                        <label>Name</label>
+                                        <input type="text"
+                                            name="name"
+                                            id="Name"
+                                            placeholder="Name"
+                                            value={stockInput.name}
+                                            onChange={onChangeStock} />
+                                        <label>Value</label>
+                                        <input type="float"
+                                            name="value"
+                                            id="Value"
+                                            placeholder="Value"
+                                            value={stockInput.value}
+                                            onChange={onChangeStock} />
+                                        <label>Amount</label>
+                                        <input type="text"
+                                            name="amount"
+                                            id="Amount"
+                                            placeholder="Amount"
+                                            value={stockInput.amount}
+                                            onChange={onChangeStock} />
+                                        <label>Min Amount</label>
+                                        <input type="text"
+                                            name="minAmount"
+                                            id="MinAmount"
+                                            placeholder="Minimum Amount"
+                                            value={stockInput.minAmount}
+                                            onChange={onChangeStock} />
+                                    </AddNewStockInputStyles>
+                                    <div>
+                                        {stockTypes.map(stocktype =>
+                                            <ButtonGridDivStyles key={stocktype.id}>
+                                                <ButtonStyles id={stocktype.id} onClick={(e) => { setStockTypeNames(e, stocktype) }}>{stocktype.name}</ButtonStyles>
+                                            </ButtonGridDivStyles>
+                                        )}
+                                        <ButtonStyles type="submit" onClick={(e) => insertStock(e)}>Submit</ButtonStyles>
+                                        <ButtonStyles onClick={() => setAddStockButton(false)}>Cancel</ButtonStyles>
+                                    </div>
+                                </form >
+                            </div>
+                            :
+                            <div></div>
+                        }
+                    </div>
+                    {addStockButton === false && addStockTypeButton === false ?
+                        <div id='pdfvisible'>
+                            <PDF />
+                        </div>
+                        :
+                        <div></div>
+                    }
                 </div>
-
-                <PDF />
             </RightSideDivStyles>
-        </WrapperStyles>
+        </WrapperStyles >
 
     )
 }
