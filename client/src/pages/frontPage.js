@@ -1,19 +1,19 @@
 import React from 'react';
 import styled from 'styled-components'
+import { withRouter } from "react-router-dom"
 
 
 
 const ContainerStyles = styled.div`
 background-color:white;
-    display:flex;
-    align-items:center;
-    justify-content: center;
-    padding-top:2rem;
-    margin-top: 14rem;
-    /* height:68vh; */
+height: 100%;
+display:grid;
+grid-template-columns: 1fr 1fr;
+align-items:center;
+justify-items:center;
+
     @media (max-width: 500px ) {
-        margin-top: 8rem;
-        flex-direction:column
+        grid-template-columns: auto;
     }
 `
 
@@ -39,18 +39,11 @@ const Button = styled.button`
    }
 `
 
-export const frontPage = () => {
+export const frontPage = withRouter((props) => {
     return (
-
         <ContainerStyles>
-
-            <Button onClick={() => window.location.href = '/login'}>Admin Login</Button>
-
-            <Button onClick={() => window.location.href = '/takeitem'}>Take Item</Button>
-
-
+            <Button onClick={() => props.history.push('/login')}>Admin Login</Button>
+            <Button onClick={() => props.history.push('/takeitem')}>Take Item</Button>
         </ContainerStyles>
-
-
     )
-}
+})
