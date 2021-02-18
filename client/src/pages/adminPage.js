@@ -8,9 +8,9 @@ export const Admin = () => {
     return (
         <>
 
-            <div>
-                <StockGroupList />
-            </div>
+
+            <StockGroupList />
+
 
         </>
     )

@@ -9,6 +9,30 @@ const All = styled.div`
 min-height:33vh;
 `
 
+
+const ButtonStyles = styled.button`
+   height: 50px; 
+    background-color: #EEEEEE;
+    border: 0.5px solid #E5E5E5;
+    outline:none;
+    box-shadow: 0 0 1px rgba(0,0,0,0.1);
+    font-size:30px;
+    transition-duration: 0.4s;
+
+
+:hover {
+    border: 2px solid black;
+}
+
+:active {
+    background-color:#bdbdbd;
+}
+
+:focus {
+    background-color:#bdbdbd;
+}
+`
+
 const ButtonGrid = styled.div`
  display:grid;
 grid-template-columns: 8fr 1fr; 
@@ -56,27 +80,31 @@ export const PDF = () => {
     }
     return (
         <All>
-            <h1>Create a Stock Order Form</h1>
+
             {form ?
                 form.map(item =>
-                    <div key={item.id}>
-                        <label>
-                            {item.name}</label>
-                        <InputGrid>
-                            <input
-                                type='number'
-                                placeholder="Amount"
-                                onChange={(e) => changeValue(e, item)} />
-                        </InputGrid>
+                    <div>
+
+                        <div key={item.id}>
+                            <label>
+                                {item.name}</label>
+                            <InputGrid>
+                                <input
+                                    type='number'
+                                    placeholder="Amount"
+                                    onChange={(e) => changeValue(e, item)} />
+                            </InputGrid>
+                        </div>
                     </div>
                 )
                 :
                 <div>
+
                     {stockTypes && stockTypes.map(stocktype =>
                         <ButtonGrid key={stocktype.id}>
-                            <button onClick={() => setForm(stocktype.stocks)}>
+                            <ButtonStyles onClick={() => setForm(stocktype.stocks)}>
                                 {stocktype.name}
-                            </button>
+                            </ButtonStyles>
 
                         </ButtonGrid>
                     )}
@@ -84,19 +112,22 @@ export const PDF = () => {
             }
             {form ?
                 <div>
-                    <button onClick={createAndDownloadPDF}>
+                    <ButtonStyles onClick={createAndDownloadPDF}>
                         Download PDF
-                        </button>
-                    <button onClick={() => setForm(null)}>Cancel</button>
+                        </ButtonStyles>
+                    <ButtonStyles onClick={() => setForm(null)}>Cancel</ButtonStyles>
                 </div>
                 :
                 <div></div>
             }
             {stockTypes ?
 
-                <button onClick={() => setStocktypes(null)}>Cancel</button>
+
+                <ButtonStyles onClick={() => setStocktypes(null)}>Cancel</ButtonStyles>
+
                 :
-                <button onClick={fetchList}>List</button>
+                <ButtonStyles onClick={fetchList}>Create A Stock Order Form</ButtonStyles>
+
             }
 
         </All >
