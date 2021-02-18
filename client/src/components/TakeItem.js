@@ -3,21 +3,25 @@ import { useFetch } from './hooks/useFetch';
 import { Hint } from 'react-autocomplete-hint';
 import styled from 'styled-components'
 import axios from 'axios';
-import { Card } from './Card';
 
 const Container = styled.div`
+height:70vh;
 display:grid;
 justify-content:center;
-padding: 10px;
-margin-top: 14rem;
+align-items:center;
+justify-items:center;
+align-content:center;
+grid-template-columns: 1fr;
 
+border: 2px solid black;
 input {
     height: 4rem;
     font-size: 3rem;
 }
 
 p {
-    font-size: 20px;
+    text-align:center;
+    font-size: 30px;
 }
 `
 const Button = styled.button`
@@ -39,15 +43,6 @@ const Button = styled.button`
     border-bottom: 1px solid;
     outline:none;
    }
-`
-const FilloutStyles = styled.form`
-display:grid;
-
-
-`
-
-const SearchBarStyles = styled.div`
-
 `
 
 export const TakeItem = () => {
@@ -133,24 +128,22 @@ export const TakeItem = () => {
         })
     }
     return (
-        <div>
-            <Container>
 
-                <FilloutStyles>
-                    <SearchBarStyles>
-                        <Hint options={options}>
-                            <input type="text" placeholder="Search" onChange={(e) => setSearch({ ...search, search: e.target.value })} />
-                        </Hint>
-                        <Button onClick={checkMatch}>Check</Button>
-                    </SearchBarStyles>
-                    {Object.entries(search.result).length ?
+        <Container>
+            <div>
+                <Hint options={options}>
+                    <input type="text" placeholder="Search" onChange={(e) => setSearch({ ...search, search: e.target.value })} />
+                </Hint>
+                <Button onClick={checkMatch}>Check</Button>
+            </div>
+            <div>
+                {Object.entries(search.result).length ?
+                    <div>
                         <div>
-
-                            <Card
-                                title={search.result.name}
-                                body=''
-                                amount={search.result.amount - amounts.amount}
-                            />
+                            <p>Name: {search.result.name}</p>
+                            <p>Amount Remaining: {search.result.amount - amounts.amount}</p>
+                        </div>
+                        <div>
                             <input type="number"
                                 name="TakeStock"
                                 id="TakeStock"
@@ -158,25 +151,23 @@ export const TakeItem = () => {
                                 onChange={onAmountChange} />
                             <Button onClick={takeStock}>Take</Button>
                             <p>{takenMessage}</p>
-                            <div>
-                                <input type="text"
-                                    name='note'
-                                    id='note'
-                                    value={note.sendNote}
-                                    onChange={onNoteChange} />
-                                <Button onClick={addNote}>Add Note</Button>
+                        </div>
+                        <div>
+                            <input type="text"
+                                name='note'
+                                id='note'
+                                value={note.sendNote}
+                                onChange={onNoteChange} />
+                            <Button onClick={addNote}>Add Note</Button>
+                            <p>{note.note}</p>
+                        </div>
+                    </div>
+                    :
+                    <div>{noMatch}</div>}
+            </div>
 
-                                <p>{note.note}</p>
+        </Container >
 
-                            </div>
-                        </div >
-                        :
-                        <div>{noMatch}</div>}
-
-                </FilloutStyles >
-
-            </Container>
-        </div>
     )
 }
 
