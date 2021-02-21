@@ -3,7 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
 const { sequelize } = require("./models");
-const session = require("express-session");
+// const session = require("express-session");
 
 const PORT = process.env.PORT || 3001;
 // Sets up the Express App
@@ -19,7 +19,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 // Requiring passport as we've configured it
-const passport = require("./config/passport");
+// const passport = require("./config/passport");
 
 if (process.env.NODE_ENV === 'production') {
 
@@ -27,12 +27,9 @@ if (process.env.NODE_ENV === 'production') {
     app.use(express.static(__dirname + '/client/build'));
 }
 
-
-
-
-app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true }));
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true }));
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 app.use('/api', require('./routes/api-routes'));
 

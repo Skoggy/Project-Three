@@ -6,13 +6,7 @@ import { StockGroupList } from '../components/StockGroupList';
 export const Admin = () => {
 
     return (
-        <>
-
-
-            <StockGroupList />
-
-
-        </>
+        <StockGroupList />
     )
 }
 

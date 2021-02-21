@@ -1,43 +1,98 @@
 const express = require('express');
 const router = express.Router();
-
 const { Stocktype, Stock, User } = require('../models');
 const passport = require('../config/passport');
 const pdf = require('html-pdf');
 const pdfTemplate = require('../documents/index')
+const jsonwebtoken = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const { response } = require('express');
+// const { json } = require('sequelize/types');
+
+const JWT_SECRET = "OISHD)*ASYFAW)*FY)Q#FY";
 
 
+const authMiddleWare = async (req, res, done) => {
+    const bearerToken = req.headers.authorization;
+    if (!bearerToken) return done(true, null);
+    const token = bearerToken.split(' ');
 
-router.post("/login", passport.authenticate("local"),
-    (req, res) => {
-        res.json(req.user);
+    const { userId } = jsonwebtoken.verify(token[1], JWT_SECRET);
+    const user = await User.findOne({
+        where: {
+            id: userId
+        }
+    })
+    if (!user) return done(true, null);
+    req.user = user;
+    return done(null, user);
+}
+
+router.post("/login", async (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password)
+        return res.status(404).send("Invalid email/password");
+
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).send("Invalid email/password")
+
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword)
+        return res.status(404).send("Invalid email or password");
+
+    const token = jsonwebtoken.sign({ userId: user.id }, JWT_SECRET, {
+        expiresIn: 60 * 60 * 24 * 3,
     });
+
+    return res.json({
+        data: {
+            token,
+            user,
+        },
+    });
+
+});
+
+router.get("/me", authMiddleWare, (req, res) => {
+    console.log(req.user);
+    return res.json({ data: "you got mail" });
+});
 
 // Route for signing up a user.The user's password is automatically hashed and stored securely thanks to
 // how we configured our Sequelize User Model.If the user is created successfully, proceed to log the user in,
 //     otherwise send back an error
 router.post("/signup", async (req, res) => {
     const { email, password } = req.body
-    try {
-        const user = await User.create({
-            email, password
-        })
-        const data = {
-            id: user.id,
-            email: user.email
+
+    if (!email || !password)
+        return res.status(404).send("Invalid Email/Password, please try again")
+
+    const user = await User.findOne({
+        where: {
+            email
         }
-        return res.json(data)
-    } catch (err) {
-        console.log(err)
-        return res.status(500).json(err)
-    }
-})
+    })
+    if (user) return res.status(404).send("Email already in use");
+
+
+    const newUser = await User.create({ email, password });
+
+    const token = jsonwebtoken.sign({ userId: newUser.id }, JWT_SECRET, {
+        expiresIn: 60 * 60 * 24 * 3,
+    });
+
+    return res.json({
+        data: {
+            token,
+            user: newUser,
+        },
+    });
+});
 
 // Route for logging user out
-router.get("/logout", function (req, res) {
-    console.log('hey')
-    req.logout();
-
+router.post("/logout", (req, res) => {
+    return res.json({ data: "success" });
 });
 
 

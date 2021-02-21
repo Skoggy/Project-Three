@@ -14,8 +14,6 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(Stock, { foreignKey: 'stocktypeId', as: 'stocks' })
     }
 
-
-
   };
   Stocktype.init({
     uuid: {
