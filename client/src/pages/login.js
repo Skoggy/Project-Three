@@ -1,11 +1,19 @@
-import axios from 'axios';
+
 import { React, useState } from 'react';
 import styled from 'styled-components';
-import { useUserContext } from '../utils/UserContext';
+
 import bg from '../assets/images/background.jpg';
-import { withRouter } from "react-router-dom"
+// import { withRouter } from "react-router-dom"
 
+import { connect } from 'react-redux';
 
+import { login } from "../redux/actions";
+import { loginAPI } from '../API/auth';
+
+const DEFAULT_STATE = {
+    email: "",
+    password: "",
+};
 
 const Container = styled.div`
     display:flex;
@@ -44,55 +52,66 @@ font-size:5rem;
     height:5rem;
 }
     `
+const LoginForm = ({ loginUser }) => {
 
-export const LoginPage = withRouter((props) => {
+    const [state, setState] = useState(DEFAULT_STATE);
+    const [loading, setLoading] = useState(false);
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [error, setError] = useState('')
-    const { setUser } = useUserContext()
-
-    async function handleFormSubmit(e) {
-        e.preventDefault();
-        if (email && password) {
-            try {
-                const { data } = await axios.post(
-                    '/api/login',
-                    {
-                        email: email,
-                        password: password
-                    }
-                )
-                setUser(data)
-                localStorage.setItem('user', data.email)
-                localStorage.setItem('password', data.password)
-                props.history.push("/admin")
-            } catch (e) {
-                console.log(e)
-            }
-        }
-        else {
-            setError("There should be a password and email")
-        }
+    function onInputChange({ target: { name, value } }) {
+        setState({ ...state, [name]: value })
     }
 
+
     return (
-
         <Container>
-
             <InputStyles>
+                <form
+                    onSubmit={async (e) => {
+                        e.preventDefault();
+                        try {
+                            const { email, password } = state;
+                            if (!email || !password) return;
 
-                <h1>Login</h1>
-                <input type="text" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-
-                <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-                <button onClick={handleFormSubmit}>Login</button>
-                <button onClick={() => window.location.href = '/register'}>Register New Admin</button>
+                            setLoading(true);
+                            const { data } = await loginAPI({ email, password });
+                            localStorage.setItem("token", data.data.token);
+                            setLoading(false);
+                            loginUser(data.data);
+                        } catch (err) {
+                            setLoading(false);
+                            console.log(err)
+                        }
+                    }}
+                >
+                    <input
+                        type="text"
+                        placeholder="email"
+                        name="email"
+                        required
+                        onChange={onInputChange}
+                        value={state.email}
+                    />
+                    <input
+                        type="password"
+                        placeholder="password"
+                        name="password"
+                        required
+                        onChange={onInputChange}
+                        value={state.password}
+                    />
+                    <button type="submit" disabled={loading}>
+                        Login
+                </button>
+                </form>
             </InputStyles>
-            <div>{error}</div>
             <OtherHalf></OtherHalf>
-
-        </Container >
-
+        </Container>
     )
-})
+}
+function mapDispatchToProps(dispatch) {
+    return {
+        loginUser: (data) => dispatch(login(data)),
+    }
+}
+
+export const LoginPage = connect(() => ({}), mapDispatchToProps)(LoginForm);
