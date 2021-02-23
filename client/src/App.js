@@ -58,24 +58,23 @@ function App({ dispatch }) {
 
   return (
     <Flex>
-
-
       <GlobalStyles />
       <Typography />
       <Router>
+
         <div className="header">
           <Header />
         </div>
         <div className="content">
           <Switch>
+            <ProtectedRoute exact path='/admin' component={Admin} />
             <PublicRoute exact path='/login' component={LoginPage} />
             <PublicRoute exact path='/stocktype' component={SelectStockPage} />
             <PublicRoute exact path='/takeitem' component={takeItemPage} />
             <PublicRoute exact path='/register' component={RegisterPage} />
             <PublicRoute exact path='/' component={frontPage} />
-            <ProtectedRoute exact path='/admin' component={Admin} />
+            {/* <Route exact path='/admin' component={Admin} /> */}
           </Switch>
-
         </div>
       </Router>
       <div className="footer">
