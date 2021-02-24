@@ -2,8 +2,6 @@ import React from 'react';
 import styled from 'styled-components'
 import { withRouter } from "react-router-dom"
 
-
-
 const ContainerStyles = styled.div`
 background-color:white;
 height: 100%;

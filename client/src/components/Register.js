@@ -1,22 +1,16 @@
-
 import { React, useState } from 'react';
 import styled from 'styled-components';
-
 import bg from '../assets/images/background.jpg';
 import { connect } from "react-redux";
-
 import { register } from "../redux/actions";
-
 import { registerAPI } from '../API/auth';
-
 
 const Container = styled.div`
     display:flex;
     justify-content: center;
     flex-direction:row;
     padding-top:2rem;
-   
-    /* height:68vh; */
+
     @media (max-width: 500px ) {
         margin-top: 8rem;
         flex-direction:row;
@@ -36,7 +30,6 @@ width:70vh;
 
 const InputStyles = styled.div`
 display:flex;
- /* margin-top: 14rem; */
 width:70vh;
 flex-direction:column;
 border: 5px solid black;

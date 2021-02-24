@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import bg from '../assets/images/background.jpg';
+
 
 const GlobalStyles = createGlobalStyle`
 
@@ -15,8 +15,8 @@ const GlobalStyles = createGlobalStyle`
  html {
    
     
-    background-attachment: fixed;
-    background-position: center;
+  background-attachment: fixed;
+  background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
     

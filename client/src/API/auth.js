@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3001';
+const BASE_URL = '';
 
 export function loginAPI(data) {
     return axios.post(`${BASE_URL}/api/login`, data);

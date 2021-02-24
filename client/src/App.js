@@ -1,11 +1,8 @@
 import { React, useState, useEffect } from 'react';
-
 import { connect } from "react-redux";
-
 import { addUser } from "./redux/actions";
 import { getUserBaseOnToken } from "./API/auth"
-
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import GlobalStyles from './styles/GlobalStyles';
 import Header from './components/Header';
 import Typography from './styles/Typography';

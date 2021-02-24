@@ -17,7 +17,6 @@ export const ReturnButton = withRouter((props) => {
         e.preventDefault();
         props.history.push('/')
     }
-
     return (
         <ReturnButtonStyles onClick={returnToHomePage}>Return</ReturnButtonStyles>
     )

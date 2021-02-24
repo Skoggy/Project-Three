@@ -11,14 +11,12 @@ background-color:white;
 `
 
 
-
 function mapStateToProps(state) {
     return {
         user: state.user,
     }
 }
 export const LogoutButton = connect(mapStateToProps)(function ({ dispatch, user }) {
-
     return (
         <div>
             {user && (
