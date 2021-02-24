@@ -4,28 +4,40 @@ import { Hint } from 'react-autocomplete-hint';
 import styled from 'styled-components'
 import axios from 'axios';
 
+
 const Container = styled.div`
-height:70vh;
 display:grid;
 justify-content:center;
 align-items:center;
 justify-items:center;
 align-content:center;
 grid-template-columns: 1fr;
+padding: 30px;
+margin: 30px;
+box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
 
-border: 2px solid black;
 input {
-    height: 4rem;
-    font-size: 3rem;
+    height: 3rem;
+    font-size: 2.5rem;
 }
 
 p {
     text-align:center;
     font-size: 30px;
 }
-`
-const Button = styled.button`
 
+@media(max-width: 1000px) {
+    justify-items:center;
+    button {
+      width:75%;
+    }
+    input {
+       
+  }
+}
+`
+
+const Button = styled.button`
 	padding: 10px 40px;
     margin: 0px 10px 10px 0px;
 	border-radius: 10px;
@@ -46,8 +58,8 @@ const Button = styled.button`
 `
 
 export const TakeItem = () => {
-    const stockURL = '/api/stocks'
-    const noteUrl = '/api/stocknote'
+    const stockURL = 'http://localhost:3001/api/stocks'
+    const noteUrl = 'http://localhost:3001/api/stocknote'
     // search and the matching result
     const [search, setSearch] = useState({
         result: {},
@@ -130,6 +142,7 @@ export const TakeItem = () => {
     return (
 
         <Container>
+
             <div>
                 <Hint options={options}>
                     <input type="text" placeholder="Search" onChange={(e) => setSearch({ ...search, search: e.target.value })} />

@@ -11,7 +11,7 @@ function _ProtectedRoute({ component: Component, user, ...rest }) {
             {...rest}
             render={(renderProps) => {
                 return user ? <Component {...renderProps} /> :
-                    <Redirect to='/login' />
+                    <Redirect to='/' />
             }}
         />
     )

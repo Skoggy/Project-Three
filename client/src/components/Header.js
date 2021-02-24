@@ -16,8 +16,6 @@ border-radius:8px;
 
 export default function Header() {
     return (
-
-
         <HeaderStyles>
             <LogoutButton />
             <div>

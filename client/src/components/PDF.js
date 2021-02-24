@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 
@@ -16,7 +16,7 @@ const ButtonStyles = styled.button`
     border: 0.5px solid #E5E5E5;
     outline:none;
     box-shadow: 0 0 1px rgba(0,0,0,0.1);
-    font-size:30px;
+    font-size:20px;
     transition-duration: 0.4s;
 
 
@@ -35,7 +35,7 @@ const ButtonStyles = styled.button`
 
 const ButtonGrid = styled.div`
  display:grid;
-grid-template-columns: 8fr 1fr; 
+grid-template-columns: 1fr;
 
 `
 const InputGrid = styled.div`
@@ -46,7 +46,7 @@ const InputGrid = styled.div`
 
 export const PDF = () => {
     const [stockTypes, setStocktypes] = useState(undefined)
-    const stockGroupURL = '/api/stocktypes'
+    const stockGroupURL = 'http://localhost:3001/api/stocktypes'
 
     const fetchList = () => {
         axios.get(stockGroupURL).then(result => {
@@ -54,9 +54,13 @@ export const PDF = () => {
         }
         )
     }
+    useEffect(() => {
+        fetchList();
+    }, [])
 
-    const pdfUrl = '/api/create-pdf'
-    const getPdfURl = '/api/fetch-pdf'
+
+    const pdfUrl = 'http://localhost:3001/api/create-pdf'
+    const getPdfURl = 'http://localhost:3001/api/fetch-pdf'
     const [form, setForm] = useState(null)
 
     const createAndDownloadPDF = () => {
@@ -80,7 +84,6 @@ export const PDF = () => {
     }
     return (
         <All>
-
             {form ?
                 form.map(item =>
                     <div>
@@ -120,16 +123,6 @@ export const PDF = () => {
                 :
                 <div></div>
             }
-            {stockTypes ?
-
-
-                <ButtonStyles onClick={() => setStocktypes(null)}>Cancel</ButtonStyles>
-
-                :
-                <ButtonStyles onClick={fetchList}>Create A Stock Order Form</ButtonStyles>
-
-            }
-
         </All >
 
     )

@@ -5,6 +5,10 @@ import styled from 'styled-components';
 
 const ReturnButtonStyles = styled.button`
 
+font-size:30px;
+border-radius: 5px;
+background-color:white;
+
 `
 
 

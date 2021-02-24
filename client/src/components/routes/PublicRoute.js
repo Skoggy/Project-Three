@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Route, Redirect } from "react-router-dom";
 
 import { connect } from 'react-redux';
 
-const _PublicRoute = ({ component: Component, user, ...rest }) => {
+function _PublicRoute({ component: Component, user, ...rest }) {
     return (
         <Route
             {...rest}
             render={(renderProps) => {
-                return user ? <Redirect to='/' /> : <Component {...renderProps} />;
+                return user ? <Redirect to='/admin' /> : <Component {...renderProps} />;
             }}
         />
     )
 }
 
-const mapStateToProps = (state) => {
+function mapStateToProps(state) {
     return { user: state.user };
 }
 

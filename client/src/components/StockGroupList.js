@@ -9,30 +9,39 @@ const WrapperStyles = styled.div`
 display: grid;
 grid-template-columns: repeat(3, 1fr);
 grid-gap:10px;
-border: 2px solid black;
+
+@media(max-width: 1000px) {
+    grid-template-columns: repeat(1, 1fr);
+    padding: 30px;
+  }
+
 `
 const StockTypeDivStyles = styled.div`
 margin-top: 20px;
 max-height: 100vh;
 overflow:auto;
-border: 2px solid black;
+padding: 5px;
+box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
 `
 
 const StockDivStyles = styled.div`
 display: grid;
 grid-template-rows: 3fr 1fr;
 margin-top: 20px;
-border: 2px solid black;
+padding: 5px;
+box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
 
+@media(max-width: 1000px) {
+    grid-template-rows: 1fr;
+  }
 `
 
 const SelectedStockDiv = styled.div`
 display:grid;
-
 font-size: 20px;
-border: 1px solid black;
 margin: 5px;
-box-shadow: 1px 1px 1px #888888;
+padding: 5px;
+box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
 `
 
 const ButtonGridDivStyles = styled.div`
@@ -40,13 +49,28 @@ display: grid;
 grid-template-columns: 10fr 1fr;
 `
 
+const ButtonGridCreateStock = styled.div`
+ display:grid;
+grid-template-columns: 1fr;
+`
+
 const RightSideDivStyles = styled.div`
 display:grid;
 grid-template-rows: repeat(3 1fr);
 grid-gap:30px;
 margin-top: 20px;
-border: 1px solid black;
-padding: 10px;
+box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+padding: 5px;
+
+button {
+      width:100%;
+    }
+@media(max-width: 1000px) {
+    justify-items:center;
+    button {
+      width:100%;
+    }
+  }
 `
 
 const AddNewStockInputStyles = styled.div`
@@ -54,6 +78,9 @@ display: grid;
 grid-template-columns: auto 5fr;
 margin-right: 20px;
 margin-bottom: 20px;
+button {
+      width:100%;
+    }
 `
 
 const ButtonStyles = styled.button`
@@ -62,7 +89,7 @@ const ButtonStyles = styled.button`
     border: 0.5px solid #E5E5E5;
     outline:none;
     box-shadow: 0 0 1px rgba(0,0,0,0.1);
-    font-size:30px;
+    font-size:20px;
     transition-duration: 0.4s;
 
 :hover {
@@ -79,8 +106,8 @@ const ButtonStyles = styled.button`
 `
 
 export const StockGroupList = () => {
-    const stockURL = '/api/stocks'
-    const stockGroupURL = '/api/stocktypes'
+    const stockURL = 'http://localhost:3001/api/stocks'
+    const stockGroupURL = 'http://localhost:3001/api/stocktypes'
 
 
     // sets which stocks under which stocktype is selected
@@ -102,6 +129,7 @@ export const StockGroupList = () => {
 
     const [addStockButton, setAddStockButton] = useState(false)
     const [addStockTypeButton, setAddStockTypeButton] = useState(false)
+    const [displayPdfButton, setDisplayPdfButton] = useState(false)
 
     // useFetch to retrieve stocktypes
     const { data: stockTypes, loading, error, updateState, removeItem } = useFetch(stockGroupURL)
@@ -200,6 +228,8 @@ export const StockGroupList = () => {
         }
     }
 
+
+
     if (loading) return <p>Loading</p>
     else if (error) return <p>Error</p>
     // else if (stockTypes.length === 0) <p>No results found</p>
@@ -254,7 +284,7 @@ export const StockGroupList = () => {
             </StockDivStyles>
             <RightSideDivStyles>
                 <div>
-                    {addStockButton === false && addStockTypeButton === false
+                    {addStockButton === false && addStockTypeButton === false && displayPdfButton === false
                         ?
                         <div>
                             <ButtonStyles onClick={(e) => displayStock(e)}>
@@ -262,7 +292,7 @@ export const StockGroupList = () => {
                         </div>
                         :
                         <div></div>}
-                    {addStockButton === false && addStockTypeButton === false
+                    {addStockButton === false && addStockTypeButton === false && displayPdfButton === false
                         ?
                         <ButtonStyles ButtonStyles onClick={() => setAddStockButton(true)}>Add Stock</ButtonStyles>
                         :
@@ -324,9 +354,9 @@ export const StockGroupList = () => {
                                     </AddNewStockInputStyles>
                                     <div>
                                         {stockTypes.map(stocktype =>
-                                            <ButtonGridDivStyles key={stocktype.id}>
+                                            <ButtonGridCreateStock key={stocktype.id}>
                                                 <ButtonStyles id={stocktype.id} onClick={(e) => { setStockTypeNames(e, stocktype) }}>{stocktype.name}</ButtonStyles>
-                                            </ButtonGridDivStyles>
+                                            </ButtonGridCreateStock>
                                         )}
                                         <ButtonStyles type="submit" onClick={(e) => insertStock(e)}>Submit</ButtonStyles>
                                         <ButtonStyles onClick={() => setAddStockButton(false)}>Cancel</ButtonStyles>
@@ -337,14 +367,22 @@ export const StockGroupList = () => {
                             <div></div>
                         }
                     </div>
-                    {addStockButton === false && addStockTypeButton === false ?
+                    {addStockButton === false && addStockTypeButton === false && displayPdfButton === false ?
                         <div id='pdfvisible'>
-                            <PDF />
+                            <ButtonStyles onClick={() => setDisplayPdfButton(true)}>Generate Stock Order</ButtonStyles>
                         </div>
                         :
                         <div></div>
                     }
+
+                    {displayPdfButton === true ? <> <PDF />
+                        <ButtonStyles onClick={() => setDisplayPdfButton(false)}>Cancel</ButtonStyles>
+                    </>
+                        : <div></div>}
+
                 </div>
+
+                {console.log(displayPdfButton)}
             </RightSideDivStyles>
         </WrapperStyles >
 
