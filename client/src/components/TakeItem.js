@@ -1,9 +1,8 @@
-import { React, useState, useEffect } from 'react';
-import { useFetch } from './hooks/useFetch';
+import { React, useState } from 'react';
+import { useQuery } from 'react-query';
 import { Hint } from 'react-autocomplete-hint';
 import styled from 'styled-components'
 import axios from 'axios';
-
 
 const Container = styled.div`
 display:grid;
@@ -58,8 +57,8 @@ const Button = styled.button`
 `
 
 export const TakeItem = () => {
-    const stockURL = '/api/stocks'
-    const noteUrl = '/api/stocknote'
+    const stockURL = 'http://localhost:3001/api/stocks'
+    const noteUrl = 'http://localhost:3001/api/stocknote'
     // search and the matching result
     const [search, setSearch] = useState({
         result: {},
@@ -71,8 +70,7 @@ export const TakeItem = () => {
 
     })
     const [takenMessage, setTakenMessage] = useState('')
-    // stores all of the stock names to allow for autofill
-    const [option, setOption] = useState([])
+
     // used to get update the amount that is taken from stock
     const [amounts, setAmounts] = useState({
         uuid: '',
@@ -81,13 +79,16 @@ export const TakeItem = () => {
 
     const [noMatch, setNoMatch] = useState('')
     // fetches data from url
-    const { data } = useFetch(stockURL)
 
 
-    // sets the option with the data to get the names.
-    useEffect(() => {
-        setOption(data)
-    }, [data,])
+    const { isLoading, error, data } = useQuery('stockItems', () =>
+        axios(stockURL))
+
+
+    // pushes the names of all the stock into the options array to be used for autofill.
+    let options = []
+    !isLoading && data.data.forEach(thing => { options.push(thing.name) })
+
 
     // takes stock from database
     const takeStock = (e) => {
@@ -120,10 +121,6 @@ export const TakeItem = () => {
 
     }
 
-    // pushes the names of all the stock into the options array to be used for autofill.
-    let options = []
-    option && option.forEach(thing => { options.push(thing.name) })
-
     // checks if there is a match.
     const checkMatch = (e) => {
         e.preventDefault()
@@ -131,18 +128,16 @@ export const TakeItem = () => {
         setSearch({ ...search, result: {} })
         setNoMatch('No Match Found')
         data.forEach(thing => {
-
             if (thing.name === search.search) {
                 setSearch({ ...search, result: thing })
                 setNote({ ...note, note: thing.note })
-
             }
         })
     }
     return (
 
         <Container>
-
+            {error && <div>Something has gone wrong here...</div>}
             <div>
                 <Hint options={options}>
                     <input type="text" placeholder="Search" onChange={(e) => setSearch({ ...search, search: e.target.value })} />

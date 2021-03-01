@@ -1,9 +1,9 @@
 
 import axios from 'axios';
 
-const stockUrl = '/api/stocks'
+const stockUrl = 'http://localhost:3001/api/stocks'
 
-const stockTypesUrl = '/api/stocktypes'
+const stockTypesUrl = 'http://localhost:3001/api/stocktypes'
 
 export default {
     delete: function (uuid) {

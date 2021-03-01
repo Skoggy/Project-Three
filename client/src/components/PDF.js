@@ -46,7 +46,7 @@ const InputGrid = styled.div`
 
 export const PDF = () => {
     const [stockTypes, setStocktypes] = useState(undefined)
-    const stockGroupURL = '/api/stocktypes'
+    const stockGroupURL = 'http://localhost:3001/api/stocktypes'
 
     const fetchList = () => {
         axios.get(stockGroupURL).then(result => {
@@ -59,8 +59,8 @@ export const PDF = () => {
     }, [])
 
 
-    const pdfUrl = '/api/create-pdf'
-    const getPdfURl = '/api/fetch-pdf'
+    const pdfUrl = 'http://localhost:3001/api/create-pdf'
+    const getPdfURl = 'http://localhost:3001/api/fetch-pdf'
     const [form, setForm] = useState(null)
 
     const createAndDownloadPDF = () => {
