@@ -58,8 +58,8 @@ const Button = styled.button`
 `
 
 export const TakeItem = () => {
-    const stockURL = '/api/stocks'
-    const noteUrl = '/api/stocknote'
+    const stockURL = 'http://localhost:3001/api/stocks'
+    const noteUrl = 'http://localhost:3001/api/stocknote'
     // search and the matching result
     const [search, setSearch] = useState({
         result: {},

@@ -106,8 +106,8 @@ const ButtonStyles = styled.button`
 `
 
 export const StockGroupList = () => {
-    const stockURL = '/api/stocks'
-    const stockGroupURL = '/api/stocktypes'
+    const stockURL = 'http://localhost:3001/api/stocks'
+    const stockGroupURL = 'http://localhost:3001/api/stocktypes'
 
 
     // sets which stocks under which stocktype is selected
